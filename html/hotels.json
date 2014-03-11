@@ -1,0 +1,68 @@
+{
+    "id1": {
+        "name": "Laptau",
+        "LatLng": [54.939456, 20.188471],
+        "contacts": "<b>Address:</b> 28 Howard Street,<br/>New York, 10013<br/><b>GPS:</b> 40.719652,-74.000366 <br/><b>Phone:</b> 800 - 60012358",
+        "text": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book"
+    },
+    "id2": {
+        "name": "Балтика",
+        "LatLng": [53.665456, 23.008471],
+        "contacts": "<b>Address:</b> 28 Howard Street,<br/>New York, 10013<br/><b>GPS:</b> 40.719652,-74.000366 <br/><b>Phone:</b> 800 - 60012358",
+        "text": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book"
+    },
+    "id3": {
+        "name": "Deima",
+        "LatLng": [54.439456, 20.118471],
+        "contacts": "<b>Address:</b> 28 Howard Street,<br/>New York, 10013<br/><b>GPS:</b> 40.719652,-74.000366 <br/><b>Phone:</b> 800 - 60012358",
+        "text": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book"
+    },
+    "id4": {
+        "name": "1Deima",
+        "LatLng": [54.539456, 19.158471],
+        "contacts": "<b>Address:</b> 28 Howard Street,<br/>New York, 10013<br/><b>GPS:</b> 40.719652,-74.000366 <br/><b>Phone:</b> 800 - 60012358",
+        "text": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book"
+    },
+    "id5": {
+        "name": "2Deima",
+        "LatLng": [54.639456, 24.108471],
+        "contacts": "<b>Address:</b> 28 Howard Street,<br/>New York, 10013<br/><b>GPS:</b> 40.719652,-74.000366 <br/><b>Phone:</b> 800 - 60012358",
+        "text": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book"
+    },
+    "id6": {
+        "name": "3Deima",
+        "LatLng": [54.739456, 21.118471],
+        "contacts": "<b>Address:</b> 28 Howard Street,<br/>New York, 10013<br/><b>GPS:</b> 40.719652,-74.000366 <br/><b>Phone:</b> 800 - 60012358",
+        "text": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book"
+    },
+    "id7": {
+        "name": "4Deima",
+        "LatLng": [54.839456, 19.489471],
+        "contacts": "<b>Address:</b> 28 Howard Street,<br/>New York, 10013<br/><b>GPS:</b> 40.719652,-74.000366 <br/><b>Phone:</b> 800 - 60012358",
+        "text": "ambled it to make a type specimen book"
+    },
+    "id8": {
+        "name": "5Deima",
+        "LatLng": [54.939456, 21.107471],
+        "contacts": "<b>Address:</b> 28 Howard Street,<br/>New York, 10013<br/><b>GPS:</b> 40.719652,-74.000366 <br/><b>Phone:</b> 800 - 60012358",
+        "text": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book"
+    },
+    "id9": {
+        "name": "6Deima",
+        "LatLng": [54.109456, 20.447471],
+        "contacts": "<b>Address:</b> 28 Howard Street,<br/>New York, 10013<br/><b>GPS:</b> 40.719652,-74.000366 <br/><b>Phone:</b> 800 - 60012358",
+        "text": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book"
+    },
+    "id10": {
+        "name": "7Deima",
+        "LatLng": [54.119456, 21.145471],
+        "contacts": "<b>Address:</b> 28 Howard Street,<br/>New York, 10013<br/><b>GPS:</b> 40.719652,-74.000366 <br/><b>Phone:</b> 800 - 60012358",
+        "text": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book"
+    },
+    "id11": {
+        "name": "8Deima",
+        "LatLng": [54.129456, 20.188471],
+        "contacts": "<b>Address:</b> 28 Howard Street,<br/>New York, 10013<br/><b>GPS:</b> 40.719652,-74.000366 <br/><b>Phone:</b> 800 - 60012358",
+        "text": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book"
+    }
+}

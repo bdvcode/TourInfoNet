@@ -1,0 +1,28 @@
+{
+"hotels": {
+"header": "Hotels",
+"descr": "This is our list of premier destinations, lorem ipsum dolor sit amet, consectetuer adipiscing elit.",
+"objects": {
+"1": {
+"name": "Laptau",
+"country": "Russia",
+"city": "Kaliningrad",
+"price": "firstcat",
+"LatLng": [54.939456, 20.188471]
+},
+"2": {
+"name": "Baltika",
+"country": "Russia",
+"city": "Kaliningrad",
+"price": "firstcat",
+"LatLng": [53.839456, 21.108471]
+},
+"3": {
+"name": "Deima",
+"country": "Russia",
+"city": "Kaliningrad",
+"price": "firstcat",
+"LatLng": [54.739456, 20.118471]
+}
+}
+}

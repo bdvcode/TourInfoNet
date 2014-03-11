@@ -1,0 +1,313 @@
+<!DOCTYPE HTML>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/normalize.css"/>
+    <link rel="stylesheet" href="css/main.css"/>
+    <link rel="stylesheet" href="css/scroll.css"/>
+
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+
+    <script type="text/javascript" src="js/translate.js"></script>
+
+    <!-- JQuery -->
+    <script src="js/jquery.min.js"></script>
+    <script src="js/gmaps.js"></script>
+    <script src="js/lib.jquery.js"></script>
+
+    <!--[if (gte IE 6)&(lte IE 8)]><script type="text/javascript" src="js/selectivizr-min.js"></script><![endif]-->
+
+    <!-- JS -->
+    <script type="text/javascript" src="js/main.js"></script>
+    <script type="text/javascript" src="js/map.js"></script>
+
+</head>
+<body>
+
+<div id="preloadPage">
+    <div class="logo_transparent"><img src="images/logo_transparent.png" alt="Loading..."/><div class="pulse"></div></div>
+</div>
+
+<div id="preloadImages"></div>
+
+
+
+    <div id="mainWrapper">
+
+        <div class="header">
+
+            <a href="index.html" class="header_logo"><img src="images/logo.png" alt="TourInfoNet.eu"/></a>
+
+            <div class="header_search_wrap">
+                <div class="header_search">
+                    <input type="submit" class="header_search_submit" />
+                    <input type="text" placeholder="Search hotels, restaurants and destinations" class="header_search_input" id="headerSearchInput" />
+                </div><!-- header_search -->
+            </div><!-- header_search_wrap -->
+
+            <div class="header_lang_wrap">
+                <div class="header_lang">
+                    <div class="header_lang_item ru">
+                        <span class="label">RU</span><i></i>
+                    </div>
+                </div>
+                <div class="lang_controls_ico"></div>
+
+                <div class="header_lang_options">
+                    <div class="header_lang_options_arrow"></div>
+
+                    <div class="header_lang_item en">
+                        <span class="label">EN</span><i></i>
+                    </div>
+                    <div class="header_lang_item lt">
+                        <span class="label">LT</span><i></i>
+                    </div>
+                    <div class="header_lang_item pl">
+                        <span class="label">PL</span><i></i>
+                    </div>
+                </div><!-- header_lang_options -->
+
+            </div><!-- header_lang_wrap -->
+
+        </div><!-- header -->
+
+        <div id="mainInner">
+
+
+            <div class="mainnav">
+
+                <div class="mainnav_border"></div>
+
+                <ul class="mainnav_ul" id="mainnavUl">
+                    <li class="mainnav_main_li" data-link="/">главная</li>
+                    <li class="" data-link="/info/">текстовая</li>
+                    <li class="mainnav_map_li" data-link="/wheretostay/">где остановиться</li>
+                    <li class="mainnav_map_li">что посмотреть</li>
+                    <li class="">где поесть</li>
+                    <li class=""></li>
+                </ul>
+
+                <a href="" class="bdv">Website by<br/>Brandivision</a>
+
+            </div><!-- mainnav -->
+
+
+            <div class="first_fltr_pane_wrap">
+                <div class="first_fltr_pane_shadow"></div>
+
+                <div class="first_fltr_pane_cont">
+
+                    <div class="first_fltr_pane">
+
+                        <div class="mp_hello">
+
+                            <div class="mp_hello_logo"></div>
+
+                            <h1>Welcome on<br/>TourInfoNet!</h1>
+
+                            <p>Set up an online directory portal of any type – companies, shops, restaurants, real estate, websites and so on in no time with
+                            TourInfoNet.</p>
+                        </div>
+                    </div><!-- first_fltr_pane -->
+
+                    <div class="first_fltr_pane">
+
+                        <div class="ip_ff_header">
+                            <div class="ip_ff_header_ico"></div>
+                            <h1>Important Info</h1>
+                            <p>This is our list of premier destinations, lorem ipsum dolor sit amet, consectetuer adipiscing elit.</p>
+                        </div>
+
+                        <div class="ip_ff_subcat_wrap">
+                            <a href="textpage.html" class="ip_ff_subcat btn tp_ajax">Visas</a>
+                            <a href="textpage.html" class="ip_ff_subcat btn tp_ajax">Entry regulations</a>
+                            <a href="textpage.html" class="ip_ff_subcat btn tp_ajax">Need to know</a>
+                        </div>
+
+                    </div><!-- first_fltr_pane -->
+
+                    <div class="first_fltr_pane">
+
+                        <div class="ip_ff_header">
+                            <div class="ip_ff_header_ico"></div>
+                            <h1>Where to stay</h1>
+                            <p>This is our list of premier destinations, lorem ipsum dolor sit amet, consectetuer adipiscing elit.</p>
+                        </div>
+
+                        <div class="ip_ff_subcat_wrap">
+
+                            <h3>Country</h3>
+                            <div class="niceselect_wrap">
+                                <select name="countrySelect" class="niceselect countrySelect">
+                                    <option value="">Chose country</option>
+                                    <option value="Lithuania">Lithuania</option>
+                                    <option value="Poland">Poland</option>
+                                    <option value="Russia">Russia</option>
+                                </select>
+                            </div>
+
+                            <h3>City</h3>
+                            <div class="niceselect_wrap citySelectWrap">
+                                <select name="choseCitySelect" class="niceselect active" disabled>
+                                    <option value="">Chose city</option>
+                                </select>
+                                <select name="choseCityLithuania" class="niceselect">
+                                    <option value="Vilnus">Vilnus</option>
+                                    <option value="Kaunas">Kaunas</option>
+                                </select>
+                                <select name="choseCityPoland" class="niceselect">
+                                    <option value="Gdansk">Gdansk</option>
+                                    <option value="Warsaw">Warsaw</option>
+                                </select>
+                                <select name="choseCityRussia" class="niceselect">
+                                    <option value="Svetlogorsk">Svetlogorsk</option>
+                                    <option value="Kaliningrad">Kaliningrad</option>
+                                </select>
+                            </div>
+
+                            <h3>Price</h3>
+                            <div class="ip_ff_subcat checkbox map_f1" data-maincat="wheretostay" data-price="firstcat">500-1500 RUB (10-35€) / day</div>
+                            <div class="ip_ff_subcat checkbox map_f1" data-maincat="wheretostay" data-price="secondcat">1500-3000 RUB (35-70€) / day</div>
+                            <div class="ip_ff_subcat checkbox map_f1" data-maincat="wheretostay" data-price="thirdcat">More than 3000 RUB (>70€) / day</div>
+
+
+                            <h3>Category</h3>
+                            <div class="ip_ff_subcat checkbox map_f1" data-maincat="wheretostay" data-subcat="hotels">Hotels</div>
+                            <div class="ip_ff_subcat checkbox map_f1" data-maincat="wheretostay" data-subcat="guest_houses">Guest houses</div>
+                            <div class="ip_ff_subcat checkbox map_f1" data-maincat="wheretostay" data-subcat="hostels">Hostels</div>
+
+                        </div><!-- ip_ff_subcat_wrap -->
+
+                    </div><!-- first_fltr_pane -->
+
+                    <div class="first_fltr_pane">
+
+                        <div class="ip_ff_header">
+                            <div class="ip_ff_header_ico"></div>
+                            <h1>Attractions</h1>
+                            <p>This is our list of premier destinations, lorem ipsum dolor sit amet, consectetuer adipiscing elit.</p>
+                        </div>
+
+                        <div class="ip_ff_subcat_wrap">
+                            <h3>Country</h3>
+                            <div class="niceselect_wrap">
+                                <select name="countrySelect" class="niceselect countrySelect">
+                                    <option value="">Chose country</option>
+                                    <option value="Lithuania">Lithuania</option>
+                                    <option value="Poland">Poland</option>
+                                    <option value="Russia">Russia</option>
+                                </select>
+                            </div>
+
+                            <h3>City</h3>
+                            <div class="niceselect_wrap citySelectWrap" >
+                                <select name="choseCitySelect" class="niceselect active" disabled>
+                                    <option value="">Chose city</option>
+                                </select>
+                                <select name="choseCityLithuania" class="niceselect">
+                                    <option value="Vilnus">Vilnus</option>
+                                    <option value="Kaunas">Kaunas</option>
+                                </select>
+                                <select name="choseCityPoland" class="niceselect">
+                                    <option value="Gdansk">Gdansk</option>
+                                    <option value="Warsaw">Warsaw</option>
+                                </select>
+                                <select name="choseCityRussia" class="niceselect">
+                                    <option value="Svetlogorsk">Svetlogorsk</option>
+                                    <option value="Kaliningrad">Kaliningrad</option>
+                                </select>
+                            </div>
+
+                            <h3>Category</h3>
+
+                            <div class="ip_ff_subcat checkbox map_f1">Museums</div>
+                            <div class="ip_ff_subcat checkbox map_f1">Castles</div>
+                            <div class="ip_ff_subcat checkbox map_f1">Old churches</div>
+                            <div class="ip_ff_subcat checkbox map_f1">Places of interest</div>
+                        </div><!-- ip_ff_subcat_wrap -->
+
+                    </div><!-- first_fltr_pane -->
+
+                </div>
+
+            </div><!-- first_fltr_pane_wrap -->
+
+
+
+            <div class="second_fltr_pane">
+                <div class="first_fltr_pane_shadow"></div>
+                <!--<h2 id="secondFltrPaneHeader"></h2>
+                <div id="secondFltrPaneDescr"></div>-->
+                <div class="second_fltr_pane_cont">
+                    <div id="secondFltrPaneCont"></div>
+                </div>
+
+            </div><!-- second_fltr_pane -->
+
+
+
+            <div class="mainInnerMap" id="mainMapContainer">
+
+                <div class="mp_selCat">
+
+                    <div class="close_btn js-mpSelCatClose"></div>
+
+                    <h2>Please, choose your category</h2>
+
+                    <div class="mp_selCat_in">
+
+                        <div class="mp_selCat_item" ><h3>Text</h3><div class="mp_selCat_item_lnk" data-link="/info/"></div></div>
+                        <div class="mp_selCat_item" ><h3>Where to stay</h3><div class="mp_selCat_item_lnk" data-link="/wheretostay/"></div></div>
+                        <div class="mp_selCat_item"><h3></h3></div>
+                        <div class="mp_selCat_item"><h3></h3></div>
+                        <div class="mp_selCat_item"><h3></h3></div>
+                        <div class="mp_selCat_item"><h3></h3></div>
+
+                        <div class="clr"></div>
+                    </div><!-- mp_selCat_in -->
+
+                    <div class="bluebtn mp_big_close"><span>Close</span></div>
+
+
+                </div><!-- mp_selCat -->
+
+                <div class="clr"></div>
+            </div><!-- mainInnerMap -->
+
+
+        </div><!-- mainInner -->
+
+
+
+    </div><!-- mainwrapper -->
+
+<div id="mpContent">
+    <div class="mp_selCat">
+
+        <div class="close_btn js-mpSelCatClose"></div>
+
+        <h2>Please, choose your category</h2>
+
+        <div class="mp_selCat_in">
+
+            <div class="mp_selCat_item" ><h3>Text</h3><div class="mp_selCat_item_lnk" data-link="/info/"></div></div>
+            <div class="mp_selCat_item" ><h3>Where to stay</h3><div class="mp_selCat_item_lnk" data-link="/wheretostay/"></div></div>
+            <div class="mp_selCat_item"><h3></h3></div>
+            <div class="mp_selCat_item"><h3></h3></div>
+            <div class="mp_selCat_item"><h3></h3></div>
+            <div class="mp_selCat_item"><h3></h3></div>
+
+            <div class="clr"></div>
+        </div><!-- mp_selCat_in -->
+
+        <div class="bluebtn mp_big_close"><span>Close</span></div>
+
+
+    </div><!-- mp_selCat -->
+</div>
+
+</body>
+</html>
