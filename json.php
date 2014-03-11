@@ -3,4 +3,4 @@
 $res = CIBlockElement::GetByID(321);
 if($ar_res = $res->GetNext())
 	echo $ar_res['PREVIEW_TEXT'];
-?>
+?> cxv
