@@ -147,7 +147,7 @@
 				<div class="ip_ff_subcat checkbox map_f1" data-price="middle">1500-3000 RUB (35-70€) / day</div>
 				<div class="ip_ff_subcat checkbox map_f1" data-price="expensive">More than 3000 RUB (>70€) / day</div>
 
-
+77
 				<h3>Category</h3>
 				<div class="ip_ff_subcat checkbox map_f1" data-type="hotels">Hotels</div>
 				<div class="ip_ff_subcat checkbox map_f1" data-type="guest_houses">Guest houses</div>
