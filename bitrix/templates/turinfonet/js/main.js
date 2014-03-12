@@ -4,30 +4,48 @@ var $db,
     $fullInfoBoxH,
     $maincat,
 //    здесь глобально хранятся значения фильтров
-    $country, $city, $pricecat = [],
+    $country, $city, $pricecat = [], filter_date,
     $type = {},
     $markers = [],
     markerCluster,
     $map,
     infobox,
-    $paramsObj = {};
+    $paramsObj = {},
+    clickEvent  = 'click';
 
 
 $(function(){
 
+    document.ontouchmove = function(e) {e.preventDefault()};
+
+    if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ){
+        window.isMobileDevise = true;
+        if(isMobileDevise){
+            clickEvent = 'touchstart'
+        }
+    }
+
+
+
+//    var $b = $('body');
+//  var preloader = $('#preloadPage');
+
+    window.$b = $('body');
+    window.preloader = $('#preloadPage');
+
+//    заполняем массив типов корневыми объектами-категориями
     var mainnavItem = $('#mainnavUl').children('li');
     for(var i = 0; i <  mainnavItem.length; i++){
         var s = mainnavItem.eq(i).attr('data-link').replace(/\//g,'');
         if(s != '' && s) $type[s] = [];
     }
 
-    var preloader = $('#preloadPage');
 
 
     // first load json database
     if($dbloaded == false){
-        $.ajax({
-            url: '/html/hotels.json',
+        /*$.ajax({
+            url: 'http://tin.brandivision.ru/where-to-eat/map.php',
             type: "GET",
             dataType: "json",
             timeout: 15000,
@@ -36,12 +54,21 @@ $(function(){
                 $db = data;
                 $dbloaded = true;
                 $(document).trigger('databaseload');
-                //addMarkers(data);
             },
-            error: function(){
-                alert('error');
+            error: function(req, err){
+                console.log(req);
+                console.log(err);
             }
-        });
+        });*/
+
+        sendMapAjaxRequest(
+            /*function(data){
+                $db = data;
+                $dbloaded = true;
+                $(document).trigger('databaseload');
+            }*/
+        );
+
     }
 
 
@@ -52,7 +79,7 @@ $(function(){
 
 
 
-    function addMarkers(data){
+    window.addMarkers = function(data){
 
         var objects = data,
             LatLngList = [];
@@ -67,28 +94,25 @@ $(function(){
 
 
             // info boxes
-            var data = '<div class="infoWinWrap_arrow"></div><div class="infoWinWrap">' +
-                '<div class="infoWinWrap_head">' +
-                '<h3>'+ val.name + '</h3>' + '<img src="" class="infoWinWrap_img" /> <div class="bluebtn infoWin_rm" id="infoWin_rm" onclick="infoBoxRm()"><span>'+ $trnsl.readmore +'</span></div> ' +
-                ''+ val.contacts +
-                '</div>' +
-                '<div class="infoWinWrap_text">'+ val.text +'</div>' +
-                '</div><div class="infoWinWrap_botFade"></div>';
+
+            var template = '<div class="infoWinWrap_arrow"></div><div class="infoWinWrap"><div class="infoWinWrap_head"><h3>{obj-name}</h3><img src="" class="infoWinWrap_img" /><div class="bluebtn infoWin_rm" id="infoWin_rm" onclick="infoBoxRm()"><span>{readmore}</span></div>{obj-contacts}</div><div class="infoWinWrap_text">{obj-text}</div></div><div class="infoWinWrap_botFade"></div>';
+            var data = template.replace('{obj-name}', val.name)
+                .replace('{obj-contacts}', val.contacts)
+                .replace('{obj-text}', val.text)
+                .replace('{readmore}', trnsl.readmore);
 
             google.maps.event.addListener(marker, 'click', (function(marker, data) {
 
                 return function() {
+//                    селекторы написаны верно, нужно каждый раз получать объкт заново, т.к. он мог измениться
                     infobox.setContent(data);
                     infobox.open($map, marker);
                     setTimeout(function(){
                         $infoBoxRmState = false;
-                        $fullInfoBoxH = $('.infoBox').height();
-                        if($fullInfoBoxH > 245){
-                            $('.infoBox').addClass('min');
-                        }
+                        $fullInfoBoxH =  $('.infoBox').height();
+                        if($fullInfoBoxH > 245){  $('.infoBox').addClass('min'); }
                         $('.infoBox').animate({opacity: 1}, 50);
-
-                    }, 10);
+                    }, 20);
 
                 }
 
@@ -108,11 +132,14 @@ $(function(){
             bounds.extend (LatLngList[i]);
         }
         //  Fit these bounds to the map
-        $map.fitBounds (bounds);
+        $map.fitBounds(bounds);
 
+        google.maps.event.addListenerOnce($map, 'zoom_changed', function() {
+            var oldZoom = $map.getZoom();
+            if(oldZoom > 18) $map.setZoom(18);
+        });
 
-
-    }
+    };
 
     function initMap(){
         var center = new google.maps.LatLng(54.939456, -20.188471);
@@ -152,7 +179,7 @@ $(function(){
 
 
 
-    $('body').on('click', '.secondFltr_item', function(e){
+    $b.on('click', '.secondFltr_item', function(e){
         $(this).closest('#secondFltrPaneCont').children('.active').removeClass('active');
         $(this).addClass('active');
         var LatLng = $(this).attr('data-latlng').split(",");
@@ -163,7 +190,7 @@ $(function(){
 
 
     // обрабатываем клик в панели F1
-    $('.map_f1').on('click', function(e){
+    $('.map_f1').on(clickEvent, function(e){
         e.preventDefault();
         e.stopPropagation();
         actionsF1(e);
@@ -220,24 +247,27 @@ $(function(){
 
 
         //запрос новой БД с отфильтрованными объектами
-        $.ajax({
-            url: '/html/hotels.json',
+        /*$.ajax({
+            url: 'http://tin.brandivision.ru/where-to-eat/map.php',
             type: "GET",
             dataType: "json",
             timeout: 15000,
             cache: true,
             data: {
-                maincat:   $maincat,
-//                objtype:   $objtype,
-                pricecat:  $pricecat,
+                category:   $maincat,
                 country:   $country,
-                city:      $city
+                city:      $city,
+                price:  $pricecat,
+                type: $type[$maincat]
             },
             success: newItemsToF2,
-            error: function(){
-                alert('error');
+            error: function(req, err){
+                console.log(req);
+                console.log(err);
             }
-        });
+        });*/
+
+        sendMapAjaxRequest(true);
 
 
         var url = window.location.href.split("?")[0],
@@ -272,45 +302,7 @@ $(function(){
 
     }
 
-    function newItemsToF2(data){
 
-        $db = data;
-
-        var items = [],
-            count = 0;
-
-        // вносим все объекты с их координатами в массив
-        $.each($db, function(key, val){
-            var current = $('<div class="secondFltr_item">'+ val.name +'</div>');
-            current.attr('data-latlng', val.LatLng);
-            current.attr('markerid', count);
-            count++;
-            items.push(current);
-        });
-
-        // пишем массив в панель F2
-        var mylist = $('#secondFltrPaneCont');
-        mylist.html(items);
-
-        /*
-         делаем сортировку
-         var listitems = mylist.children('.secondFltr_item').get();
-         listitems.sort(function(a, b) {
-         return $(a).text().toUpperCase().localeCompare($(b).text().toUpperCase());
-         });
-         $.each(listitems, function(idx, itm) { mylist.append(itm); });
-         */
-
-        // показываем панель
-        $('.second_fltr_pane').addClass('active');
-        $(window).resize();
-
-        removeAllMarkers();
-        addMarkers(data);
-
-        preloader.fadeOut(50);
-
-    }
 
 
 
@@ -320,7 +312,8 @@ $(function(){
 
 
     // связываем пункты основной навигации с панелями
-    $('.mainnav_ul').find('li').each(function(){
+    var $mainnav_ul = $('.mainnav_ul');
+    $mainnav_ul.find('li').each(function(){
         $(this).attr('data-index', $(this).index());
     });
     $('.first_fltr_pane').each(function(){
@@ -329,45 +322,49 @@ $(function(){
 
 
 //    выбор категории на главной странице
-    $('body').on('click', '.mp_selCat_item_lnk', function(e){
+    $b.on(clickEvent, '.mp_selCat_item_lnk', function(e){
         var urlToFind = $(e.target).attr('data-link');
         var currentLiForOpen = $('#mainnavUl').find('li[data-link="'+ urlToFind +'"]');
 //        делаем клик
         currentLiForOpen.trigger('click');
     });
-    $('body').on('click', '.js-mpSelCatClose', function(){
+    $b.on(clickEvent, '.js-mpSelCatClose', function(){
         $(this).closest('.mp_selCat').fadeOut(60);
     });
 
 //    обработка клика в главном меню
 //    $('.mainnav_ul').children('li').on('click', mainnavLiClick);
-    $('.mainnav_ul').children('li').on('click', function(event){
-        mainnavLiClick(event.target, true);
+    $mainnav_ul.children('li').on(clickEvent, function(event){
+
+        var clicked;
+        if(event.target.tagName.toLowerCase() == 'li'){ clicked = event.target; } else { clicked = $(this).closest('li'); }
+        if($(clicked).hasClass('active')) return;
+        mainnavLiClick(clicked, true);
     });
 
     function mainnavLiClick(item, pushState){
 
 //        item = $(event.target);
         item = $(item);
+        $maincat = item.attr('data-link').replace(/\//g,'');
+
+        preloader.show();
 
 
 //        если категория уже открыта
         if(item.hasClass('active')) return;
 //        если категория с картой
         if(item.hasClass('mainnav_map_li')) {
-//            не запускать, если карта открыта
-            //if(!($('.gm-style').length)){
-            initMap();
-            removeAllMarkers();
-            addMarkers($db);
-            newItemsToF2($db);
-            // }
+            if(!($('.gm-style').length)){ initMap(); }
+            sendMapAjaxRequest(false);
         }
 
 //        если главная страница
         if(item.hasClass('mainnav_main_li')) {
             $('#mainMapContainer').append( $('#mpContent').html());
             $(window).resize();
+        } else {
+            $('.mp_selCat').remove();
         }
 
 
@@ -375,9 +372,12 @@ $(function(){
         $('.first_fltr_pane').filter('.active').removeClass('active');
         item.addClass('active');
 
-        $maincat = item.attr('data-link').replace(/\//g,'');
+
+
+
 
         //показать панель
+
         var activeF1Pane = $('.first_fltr_pane[data-index='+item.attr('data-index')+']');
         activeF1Pane.addClass('active');
 
@@ -430,12 +430,12 @@ $(function(){
         }
 
 
-
+        preloader.hide();
 
     }
 
     // фильтры-кнопки UX
-    $('.ip_ff_subcat.btn').on('click', function(){
+    $('.ip_ff_subcat.btn').on(clickEvent, function(){
         $(this).closest('.ip_ff_subcat_wrap').find('.ip_ff_subcat.active').removeClass('active');
         $(this).addClass('active');
     });
@@ -467,7 +467,7 @@ $(function(){
         if(paramsArrFromURL.price) $pricecat = paramsArrFromURL.price;
         if(paramsArrFromURL.type) $type[$maincat] = paramsArrFromURL.type;
 
-        console.log($type[$maincat]);
+//        console.log($type[$maincat]);
 
     }
 
@@ -504,7 +504,7 @@ $(function(){
 
 
     /* TEXT PAGE AJAX*/
-    $('body').on('click', '.tp_ajax', function(e){
+    $b.on(clickEvent, '.tp_ajax', function(e){
         event.preventDefault();
         event.stopPropagation();
         ajaxLoadPage_Textpage(e);
@@ -542,7 +542,7 @@ $(function(){
     // language select pane
 
     var timer;
-    $("body").on('mouseleave', '.header_lang_wrap', function(){
+    $b.on('mouseleave', '.header_lang_wrap', function(){
         timer = setTimeout(function () {
             $('.header_lang_wrap').removeClass('active');
         }, 300);
@@ -553,36 +553,39 @@ $(function(){
 
 
     function onResizeActions(){
+
+        var winWidth = $(window).width(),
+            winHeight = $(window).height();
+
         // main pane height
-        if($('#mainInner').length){
-            $('#mainInner').height($(window).height() - $('.header').outerHeight());
+        var mainInner = $('#mainInner');
+        if(mainInner.length){
+            mainInner.height(winHeight - $('.header').outerHeight());
         }
 
         //map container width
-        if($('.mainInnerMap').length){
-            $('.mainInnerMap').width(
-                $(window).width() - $('.mainnav').outerWidth() - $('.first_fltr_pane_wrap:visible').outerWidth() - $('.second_fltr_pane:visible').outerWidth()
+        var mainInnerMap = $('.mainInnerMap');
+        if(mainInnerMap.length){
+            mainInnerMap.width(
+                winWidth - $('.mainnav').outerWidth() - $('.first_fltr_pane_wrap:visible').outerWidth() - $('.second_fltr_pane:visible').outerWidth()
             );
         }
 
         //text content pane height
-        if($('#tpContent').length){
-            $('#tpContent').height($(window).height() - $('#tpContent').offset().top - 14)
+        var tpContent = $('#tpContent');
+        if(tpContent.length){
+            tpContent.height(winHeight - tpContent.offset().top - 14)
         }
 
-        if($map){
-            google.maps.event.trigger($map, "resize");
-        }
+
+
+        if($map){ google.maps.event.trigger($map, "resize"); }
 
         addScrolls();
 
     }
 
-    window.onresize = function() {
-        onResizeActions();
-    };
-
-
+    $(window).on('resize', onResizeActions);
 
 
 
@@ -607,6 +610,14 @@ $(function(){
     }
 
 
+    $.datepicker.setDefaults($.datepicker.regional[trnsl.langCode]);
+
+    $('#js-guid_tours_datepicker').datepicker({
+        firstDay: 1,
+        minDate: 0,
+//        onSelect: ;
+        altField: "#js-guid_tours_datepicker_input"
+    });
 
 });
 

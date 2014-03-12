@@ -359,38 +359,21 @@
 
 				<h3>Category</h3>
 
-
 				<?
 				CModule::IncludeModule("iblock");
 				$arSelect = Array("ID", "NAME", "IBLOCK_SECTION_ID", "CODE");
-				$arFilter = Array("IBLOCK_ID"=>7,"SECTION_ID"=>32, "ACTIVE_DATE"=>"Y", "ACTIVE"=>"Y");
+				$arFilter = Array("IBLOCK_ID"=>10,"SECTION_ID"=>29, "ACTIVE_DATE"=>"Y", "ACTIVE"=>"Y");
 				$res = CIBlockElement::GetList(Array("SORT"=>"ASC"),
 
 					$arFilter, false, false, $arSelect); // Ru
 				while($ob = $res->GetNextElement()):?>
 					<?$arFields = $ob->GetFields();?>
-					<?$typeID = $arFields['ID'];?>
-					</br>
-					<?$db_props = CIBlockElement::GetProperty(7, $typeID, "sort", "asc", Array("CODE"=>"type"));
-					if($ar_props = $db_props->Fetch()):
-						$ar1[] = $ar_props["VALUE"];
-						endif;?>
+					<div class="ip_ff_subcat checkbox map_f1" data-type="<?echo($arFields['ID']);?>"><?echo($arFields['NAME']);?></div>
 				<?endwhile;?>
-<?
-$arr_fl = (array_count_values ($ar1));
-while(current($arr_fl)):?>
-	<?$value = key($arr_fl);
-			next($arr_fl);
-			$typeID_fl = $value;
-			?>
-			<?
-			$res = CIBlockElement::GetByID($typeID_fl);
-			if($ar_res = $res->GetNext()):?>
 
 
-				<div class="ip_ff_subcat checkbox map_f1" data-type="<?echo($ar_res['ID']);?>"><?echo($ar_res['NAME']);?><?echo($ar_res['ID']);?></div>
-			<?endif;?>
-		<?endwhile;?>
+
+
 
 			</div><!-- ip_ff_subcat_wrap -->
 

@@ -2,6 +2,7 @@
 <!DOCTYPE HTML>
 <html lang="ru">
 <head>
+	<?// $APPLICATION->ShowHead();?>
 	<meta charset="UTF-8">
 	<title></title>
 
@@ -27,4 +28,4 @@
 	<script type="text/javascript" src="<?php echo SITE_TEMPLATE_PATH ?>/js/map.js"></script>
 
 </head>
-<body>
+<body><? // $APPLICATION->ShowPanel();?>

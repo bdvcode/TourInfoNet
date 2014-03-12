@@ -1,11 +1,11 @@
 function addHistoryItem(title, url){
-    if(title == '') title = 'TourInfoNet.eu';
+    if( title == '' || !title ) title = 'TourInfoNet.eu';
 
     if(url !== undefined){
 
 //           пишем новую страницу в историю
         history.pushState({ tourinfonet: true }, title, url);
-        console.log('Added history: '+title + ' ' +url);
+//        console.log('Added history: '+title + ' ' +url);
     }
 }
 
@@ -17,65 +17,26 @@ function removeAllMarkers(){
             $markers[i].setMap(null);
         }
         $markers.length = 0;
-    }
+    };
     $map.clearOverlays();
     markerCluster.clearMarkers();
 }
 
 function updateParamsStr(){
-    /*$paramsStr = '?';
-     //            $paramsStr += 'price=cheap,middle&type=hotels,guest_houses';
 
-     var activeF1Pane = $('.first_fltr_pane').filter('.active');
-     var str;
-     if(activeF1Pane.find('[data-price]') && $pricecat.length != 0){
-
-     if(window.location.href.indexOf('=') === -1){
-     str = 'price=';
-     } else {
-     str = '&price=';
-     }
-
-     for(var i = 0; i < $pricecat.length; i++){
-     str += $pricecat[i] + ',';
-     }
-     str = str.slice(0, -1);
-     $paramsStr += str;
-     } else if ( $pricecat.length == 0 ) {
-     $paramsStr = removeParameterFromUrl($paramsStr, 'price');
-     }
-
-     if(activeF1Pane.find('[data-objtype]') && $objtype.length != 0){
-     if(window.location.href.indexOf('=') === -1){
-     str = 'type=';
-     } else {
-     str = '&type=';
-     }
-
-     for(var i = 0; i < $objtype.length; i++){
-     str += $objtype[i] + ',';
-     }
-     str = str.slice(0, -1);
-     $paramsStr += str;
-     } else if ( $objtype.length == 0 ){
-     $paramsStr = removeParameterFromUrl($paramsStr, 'type');
-     }
-
-     console.log($paramsStr);*/
     var activeF1Pane = $('.first_fltr_pane').filter('.active');
 
 //    $paramsObj идет в урл, если фильтр есть -- добавляем в $paramsObj, если нет -- убираем
     if(activeF1Pane.find('[data-price]').length) $paramsObj.price = $pricecat;
     else delete $paramsObj.price;
 
-    if(activeF1Pane.find('[data-objtype]').length) $paramsObj.type = $objtype;
+    if(activeF1Pane.find('[data-type]').length) { $paramsObj.type = $type[$maincat]; }
     else delete $paramsObj.type;
-
 }
 
 function updateFiltersInterface(){
 
-//    var pane = $('.first_fltr_pane').filter('.active');
+//    если определены переменные фильтров включаем соответсвующие кнопки
     var pane = $('.first_fltr_pane');
 
     if($pricecat){
@@ -84,30 +45,104 @@ function updateFiltersInterface(){
         }
     }
 
-    if($objtype){
-        for(var i = 0; i < $objtype.length; i++){
-            pane.find('[data-objtype='+ $objtype[i] +']').addClass('active');
+    if($type[$maincat]){
+        for(var i = 0; i < $type[$maincat].length; i++){
+            pane.find('[data-type='+ $type[$maincat][i] +']').addClass('active');
         }
     }
 
+}
 
+
+function sendMapAjaxRequest(showF2Pane){
+
+    $.ajax({
+        url: 'http://tin.brandivision.ru/where-to-eat/map.php',
+        type: "GET",
+        dataType: "json",
+        timeout: 15000,
+        cache: true,
+        data: {
+            category:   $maincat,
+            country:   $country,
+            city:      $city,
+            price:  $pricecat,
+            type: $type[$maincat]
+        },
+        beforeSend: function(jqXHR, settings) {
+            console.log('Ajax request URL: ' + settings.url);
+        },
+        success: function(data){
+            $db = data;
+            if(!$dbloaded){ $(document).trigger('databaseload'); }
+            $dbloaded = true;
+            newItemsToF2(data, showF2Pane);
+        },
+        error: function(req, err){
+            console.log(req);
+            console.log(err);
+        }
+    });
 
 }
 
 
 
 
+
+
+function newItemsToF2(data, showF2Pane){
+
+//    $db = data;
+
+    var items = [],
+        count = 0;
+
+    // вносим все объекты с их координатами в массив
+    $.each($db, function(key, val){
+        var current = $('<div class="secondFltr_item">'+ val.name +'</div>');
+        current.attr('data-latlng', val.LatLng);
+        current.attr('markerid', count);
+        count++;
+        items.push(current);
+    });
+
+    // пишем массив в панель F2
+    if(showF2Pane){
+        var mylist = $('#secondFltrPaneCont');
+        mylist.html(items);
+
+        /*
+         делаем сортировку
+         var listitems = mylist.children('.secondFltr_item').get();
+         listitems.sort(function(a, b) {
+         return $(a).text().toUpperCase().localeCompare($(b).text().toUpperCase());
+         });
+         $.each(listitems, function(idx, itm) { mylist.append(itm); });
+         */
+
+        // показываем панель
+        $('.second_fltr_pane').addClass('active');
+        $(window).resize();
+    }
+
+    removeAllMarkers();
+    addMarkers(data);
+
+    preloader.fadeOut(50);
+
+}
 // кнопка подробнее во всплывающем окне объекта
 function infoBoxRm(){
     if($infoBoxRmState == true){
-        $('#infoWin_rm').find('span').text($trnsl.readmore);
+        $('#infoWin_rm').find('span').text(trnsl.readmore);
         $('.infoWinWrap').animate({
             height: 210,
             paddingBottom: 23
         }, 100);
         $infoBoxRmState = false
     } else if ($infoBoxRmState == false ){
-        $('#infoWin_rm').find('span').text($trnsl.hide);
+        $('#infoWin_rm').find('span').text(trnsl.hide);
         $('.infoWinWrap').animate({
             height: $fullInfoBoxH,
             paddingBottom: 0
@@ -117,10 +152,10 @@ function infoBoxRm(){
 }
 
 function pushParamsObj(arrId, val){
-    window[arrId].push(val);
+    eval(arrId).push(val);
 }
 function removeParamsFromObj(arrId, val){
-    window[arrId].remove(val);
+    eval(arrId).remove(val);
 }
 
 function addScrolls(){
@@ -153,8 +188,14 @@ function updateCountryCity(){
         $(this).val($country).trigger('update');
     });
 
+    $('.citySelectWrap').each(function(){
+        $(this).find('.active').removeClass('active');
+        $(this).find('select').eq($('.countrySelect')[0].selectedIndex).addClass('active');
+    });
+
 //    переносим выбранный город во все скрытые селекты
     $('.citySelectWrap').each(function(){
         $(this).children('.active').val($city).trigger('update');
     });
+    $.datepicker.setDefaults($.datepicker.regional['ru']);
 }
