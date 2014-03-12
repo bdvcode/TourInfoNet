@@ -52,14 +52,14 @@
 
 	<div class="mainnav_border"></div>
 
-	<ul class="mainnav_ul" id="mainnavUl">
-		<li class="mainnav_map_li mainnav_main_li" data-link="/">главная</li>
-		<li class="mainnav_text_li" data-link="/useful_info/">текстовая</li>
-		<li class="mainnav_map_li" data-link="/where-to-stay/">где остановиться</li>
-		<li class="mainnav_map_li" data-link="/what-to-see/">что посмотреть</li>
-		<li class="mainnav_map_li" data-link="/where-to-eat/">где поесть</li>
-		<li class="" data-link=""></li>
-	</ul>
+    <ul class="mainnav_ul" id="mainnavUl">
+        <li class="mainnav_map_li mainnav_main_li" data-link="/"><div><i><b class="sprite-home_w"></b></i></div></li>
+        <li class="mainnav_text_li" data-link="/useful_info/"><div><i><b class="sprite-info_w"></b></i></div></li>
+        <li class="mainnav_map_li" data-link="/where-to-stay/"><div><i><b class="sprite-hotel_w"></b></i></div></li>
+        <li class="mainnav_map_li" data-link="/what-to-see/"><div><i><b class="sprite-attractions_w"></b></i></div></li>
+        <li class="mainnav_map_li" data-link="/where-to-eat/"><div><i><b class="sprite-food_w"></b></i></div></li>
+        <li class="" data-link=""></li>
+    </ul>
 
 	<a href="" class="bdv">Website by<br/>Brandivision</a>
 
@@ -157,7 +157,7 @@
 
 		</div><!-- first_fltr_pane -->
 
-		<div class="first_fltr_pane">
+		<div class="first_fltr_pane"> <!-- what-to-see -->
 
 			<div class="ip_ff_header">
 				<div class="ip_ff_header_ico"></div>
@@ -170,9 +170,14 @@
 				<div class="niceselect_wrap">
 					<select name="countrySelect" class="niceselect countrySelect">
 						<option value="">Chose country</option>
-						<option value="lithuania">Lithuania</option>
-						<option value="poland">Poland</option>
-						<option value="russia">Russia</option>
+						<?if(CModule::IncludeModule("iblock")):
+							// выборка только активных разделов из инфоблока $IBLOCK_ID, $ID - раздел-родителя
+							$arFilter = Array('IBLOCK_ID'=>9, 'GLOBAL_ACTIVE'=>'Y', 'SECTION_ID'=>$ID);
+							$db_list = CIBlockSection::GetList(Array($by=>$order), $arFilter, true);
+							while($ar_result = $db_list->GetNext()):?>
+								<option value="<?=$ar_result['CODE']?>"><?=$ar_result['NAME']?></option>
+							<?endwhile;?>
+						<?endif;?>
 					</select>
 				</div>
 
@@ -183,27 +188,97 @@
 					</select>
 					<select name="choseCityLithuania" class="niceselect citySelect">
 						<option value="">Chose city</option>
-						<option value="vilnus">Vilnus</option>
-						<option value="kaunas">Kaunas</option>
+						<?
+						CModule::IncludeModule("iblock");
+						$arSelect = Array("ID", "NAME", "IBLOCK_SECTION_ID", "CODE");
+						$arFilter = Array("IBLOCK_ID"=>9,"SECTION_ID"=>34, "ACTIVE_DATE"=>"Y", "ACTIVE"=>"Y");
+						$res = CIBlockElement::GetList(Array("SORT"=>"ASC"),
+
+							$arFilter, false, false, $arSelect); // Lt
+						while($ob = $res->GetNextElement()):?>
+							<?$arFields = $ob->GetFields();?>
+							<option value="<?echo($arFields['CODE']);?>"><?echo($arFields['NAME']);?></option>
+						<?endwhile;?>
 					</select>
 					<select name="choseCityPoland" class="niceselect citySelect">
 						<option value="">Chose city</option>
-						<option value="gdansk">Gdansk</option>
-						<option value="warsaw">Warsaw</option>
+						<?
+						CModule::IncludeModule("iblock");
+						$arSelect = Array("ID", "NAME", "IBLOCK_SECTION_ID", "CODE");
+						$arFilter = Array("IBLOCK_ID"=>9,"SECTION_ID"=>33, "ACTIVE_DATE"=>"Y", "ACTIVE"=>"Y");
+						$res = CIBlockElement::GetList(Array("SORT"=>"ASC"),
+
+							$arFilter, false, false, $arSelect); // Pl
+						while($ob = $res->GetNextElement()):?>
+							<?$arFields = $ob->GetFields();?>
+							<option value="<?echo($arFields['CODE']);?>"><?echo($arFields['NAME']);?></option>
+						<?endwhile;?>
 					</select>
 					<select name="choseCityRussia" class="niceselect citySelect">
 						<option value="">Chose city</option>
-						<option value="svetlogorsk">Svetlogorsk</option>
-						<option value="kaliningrad">Kaliningrad</option>
+						<?
+						CModule::IncludeModule("iblock");
+						$arSelect = Array("ID", "NAME", "IBLOCK_SECTION_ID", "CODE");
+						$arFilter = Array("IBLOCK_ID"=>9,"SECTION_ID"=>32, "ACTIVE_DATE"=>"Y", "ACTIVE"=>"Y");
+						$res = CIBlockElement::GetList(Array("SORT"=>"ASC"),
+
+							$arFilter, false, false, $arSelect); // Ru
+						while($ob = $res->GetNextElement()):?>
+							<?$arFields = $ob->GetFields();?>
+							<option value="<?echo($arFields['CODE']);?>"><?echo($arFields['NAME']);?></option>
+						<?endwhile;?>
 					</select>
 				</div>
 
-				<h3>Category</h3>
 
-				<div class="ip_ff_subcat checkbox map_f1" data-type="museums">Museums</div>
-				<div class="ip_ff_subcat checkbox map_f1" data-type="castles">Castles</div>
-				<div class="ip_ff_subcat checkbox map_f1" data-type="old_churches">Old churches</div>
-				<div class="ip_ff_subcat checkbox map_f1" data-type="places_of_interest">Places of interest</div>
+				<h3>Category</h3>
+				<?
+				CModule::IncludeModule("iblock");
+				$arSelect = Array("ID", "NAME", "IBLOCK_SECTION_ID", "CODE");
+				$arFilter = Array("IBLOCK_ID"=>10,"SECTION_ID"=>30, "ACTIVE_DATE"=>"Y", "ACTIVE"=>"Y");
+				$res = CIBlockElement::GetList(Array("SORT"=>"ASC"),
+
+					$arFilter, false, false, $arSelect); // Ru
+				while($ob = $res->GetNextElement()):?>
+					<?$arFields = $ob->GetFields();?>
+					<div class="ip_ff_subcat checkbox map_f1" data-type="<?echo($arFields['CODE']);?>"><?echo($arFields['NAME']);?></div>
+				<?endwhile;?>
+
+
+				<?
+				CModule::IncludeModule("iblock");
+				$arSelect = Array("ID", "NAME", "IBLOCK_SECTION_ID", "CODE");
+				$arFilter = Array("IBLOCK_ID"=>10,"SECTION_ID"=>32, "ACTIVE_DATE"=>"Y", "ACTIVE"=>"Y");
+				$res = CIBlockElement::GetList(Array("SORT"=>"ASC"),
+
+					$arFilter, false, false, $arSelect); // Ru
+				while($ob = $res->GetNextElement()):?>
+					<?$arFields = $ob->GetFields();?>
+					<?$typeID = $arFields['ID'];?>
+					</br>
+					<?$db_props = CIBlockElement::GetProperty(7, $typeID, "sort", "asc", Array("CODE"=>"type"));
+					if($ar_props = $db_props->Fetch()):
+						$ar1[] = $ar_props["VALUE"];
+					endif;?>
+				<?endwhile;?>
+				<?
+				$arr_fl = (array_count_values ($ar1));
+				while(current($arr_fl)):?>
+					<?$value = key($arr_fl);
+					next($arr_fl);
+					$typeID_fl = $value;
+					?>
+					<?
+					$res = CIBlockElement::GetByID($typeID_fl);
+					if($ar_res = $res->GetNext()):?>
+
+
+						<div class="ip_ff_subcat checkbox map_f1" data-type="<?echo($ar_res['ID']);?>"><?echo($ar_res['NAME']);?></div>
+					<?endif;?>
+				<?endwhile;?>
+
+
+
 			</div><!-- ip_ff_subcat_wrap -->
 
 		</div><!-- first_fltr_pane -->
@@ -284,9 +359,39 @@
 
 				<h3>Category</h3>
 
-				<div class="ip_ff_subcat checkbox map_f1" data-type="bar">Bar</div>
-				<div class="ip_ff_subcat checkbox map_f1" data-type="restaurant">Restaurant</div>
-				<div class="ip_ff_subcat checkbox map_f1" data-type="cafe">Cafe</div>
+
+				<?
+				CModule::IncludeModule("iblock");
+				$arSelect = Array("ID", "NAME", "IBLOCK_SECTION_ID", "CODE");
+				$arFilter = Array("IBLOCK_ID"=>7,"SECTION_ID"=>32, "ACTIVE_DATE"=>"Y", "ACTIVE"=>"Y");
+				$res = CIBlockElement::GetList(Array("SORT"=>"ASC"),
+
+					$arFilter, false, false, $arSelect); // Ru
+				while($ob = $res->GetNextElement()):?>
+					<?$arFields = $ob->GetFields();?>
+					<?$typeID = $arFields['ID'];?>
+					</br>
+					<?$db_props = CIBlockElement::GetProperty(7, $typeID, "sort", "asc", Array("CODE"=>"type"));
+					if($ar_props = $db_props->Fetch()):
+						$ar1[] = $ar_props["VALUE"];
+						endif;?>
+				<?endwhile;?>
+<?
+$arr_fl = (array_count_values ($ar1));
+while(current($arr_fl)):?>
+	<?$value = key($arr_fl);
+			next($arr_fl);
+			$typeID_fl = $value;
+			?>
+			<?
+			$res = CIBlockElement::GetByID($typeID_fl);
+			if($ar_res = $res->GetNext()):?>
+
+
+				<div class="ip_ff_subcat checkbox map_f1" data-type="<?echo($ar_res['ID']);?>"><?echo($ar_res['NAME']);?><?echo($ar_res['ID']);?></div>
+			<?endif;?>
+		<?endwhile;?>
+
 			</div><!-- ip_ff_subcat_wrap -->
 
 		</div><!-- first_fltr_pane -->
@@ -340,6 +445,7 @@
 
 </div><!-- mainInner -->
 
+<div class="update"></div>
 
 
 </div><!-- mainwrapper -->
