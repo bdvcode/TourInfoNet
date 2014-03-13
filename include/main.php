@@ -54,12 +54,12 @@
 
     <ul class="mainnav_ul" id="mainnavUl">
         <li class="mainnav_map_li mainnav_main_li" data-link="/" data-index="0"><div><i><b class="sprite-home_w"></b></i></div></li>
-        <li class="mainnav_text_li" data-link="/useful_info/" data-index="1"><div><i><b class="sprite-info_w"></b></i></div></li>
+        <li class="mainnav_text_li" data-link="/useful-info/" data-index="1"><div><i><b class="sprite-info_w"></b></i></div></li>
         <li class="mainnav_map_li" data-link="/where-to-stay/" data-index="2"><div><i><b class="sprite-hotel_w"></b></i></div></li>
         <li class="mainnav_map_li" data-link="/what-to-see/" data-index="3"><div><i><b class="sprite-attractions_w"></b></i></div></li>
         <li class="mainnav_text_li" data-link="/transportation/" data-index="4"><div><i><b class="sprite-auto_w"></b></i></div></li>
         <li class="mainnav_map_li" data-link="/where-to-eat/" data-index="5"><div><i><b class="sprite-food_w"></b></i></div></li>
-        <li class="mainnav_text_li" data-link="/guided_tours/" data-index="6"><div><i><b class="sprite-excours_w"></b></i></div></li>
+        <li class="mainnav_guided_li" data-link="/guided-tours/" data-index="6"><div><i><b class="sprite-excours_w"></b></i></div></li>
     </ul>
 
     <a href="" class="bdv">Website by<br/>Brandivision</a>
@@ -131,7 +131,7 @@
 			$arFilter, false, false, $arSelect); // Ru
 		while($ob = $res->GetNextElement()):?>
 			<?$arFields = $ob->GetFields();?>
-			<div class="ip_ff_subcat checkbox map_f1" data-type="<?echo($arFields['ID']);?>"><?echo($arFields['NAME']);?></div>
+			<div class="ip_ff_subcat checkbox map_f1" data-price="<?echo($arFields['ID']);?>"><?echo($arFields['NAME']);?></div>
 		<?endwhile;?>
 
 
@@ -340,31 +340,72 @@
 
 <div class="mainInnerMap" id="mainMapContainer">
 
-    <div class="mp_selCat">
 
-        <div class="close_btn js-mpSelCatClose"></div>
-
-        <h2>Please, choose your category</h2>
-
-        <div class="mp_selCat_in">
-
-            <div class="mp_selCat_item" ><h3>Text</h3><div class="mp_selCat_item_lnk" data-link="/info/"></div></div>
-            <div class="mp_selCat_item" ><h3>Where to stay</h3><div class="mp_selCat_item_lnk" data-link="/wheretostay/"></div></div>
-            <div class="mp_selCat_item"><h3></h3></div>
-            <div class="mp_selCat_item"><h3></h3></div>
-            <div class="mp_selCat_item"><h3></h3></div>
-            <div class="mp_selCat_item"><h3></h3></div>
-
-            <div class="clr"></div>
-        </div><!-- mp_selCat_in -->
-
-        <div class="bluebtn mp_big_close js-mpSelCatClose"><span>Close</span></div>
+    <div id="guidedPane">
+        <div id="guidedContent">
 
 
-    </div><!-- mp_selCat -->
+            <div class="guided_header afterclr">
+                <div class="guided_header_cell col1" style="width:18.5%"><span>Place</span></div>
+                <div class="guided_header_cell col2" style="width:53%"><span>Route</span></div>
+                <div class="guided_header_cell col3"><span>Contacts</span></div>
+            </div><!-- guided_header -->
 
-    <div class="clr"></div>
+            <div class="guided_item afterclr">
+                <div class="guided_item_cell guided_item_place col1"><div>Russia, Kaliningrad</div></div>
+                <div class="guided_item_cell col2">
+                    <div>
+                        <div class="guided_item_title">Tour of the fortifications of Kaliningrad</div>
+                        <div class="guided_item_preview">Easy walk along a historic route. Length: ca. 9 km Duration: ca. 2,5−3 hrs Hight difference: ca. 450 meters up Suitable for children: recommended from ca. 7-8 years</div>
+                    </div>
+                </div>
+                <div class="guided_item_cell col3">
+                    <div>
+                        <div class="guided_item_cont_title">Regional tourism information center Kaliningrad</div>
+                        <div class="guided_item_contacts">
+                            T: 007 9634 558 386 <br/>
+                            <a href="info@visit-kaliningrad.ru">info@visit-kaliningrad.ru</a>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- guided_item -->
+
+            <div class="guided_item afterclr">
+                <div class="guided_item_cell guided_item_place col1"><div>Russia, Kaliningrad</div></div>
+                <div class="guided_item_cell col2">
+                    <div>
+                        <div class="guided_item_title">Tour of the fortifications of Kaliningrad</div>
+                        <div class="guided_item_preview">Easy walk along a historic route. Length: ca. 9 km Duration: ca. 2,5−3 hrs Hight difference: ca. 450 meters up Suitable for children: recommended from ca. 7-8 years</div>
+                    </div>
+                </div>
+                <div class="guided_item_cell col3">
+                    <div>
+                        <div class="guided_item_cont_title">Regional tourism information center Kaliningrad</div>
+                        <div class="guided_item_contacts">
+                            T: 007 9634 558 386 <br/>
+                            <a href="info@visit-kaliningrad.ru">info@visit-kaliningrad.ru</a>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- guided_item -->
+
+
+
+        </div><!-- guidedContent -->
+    </div><!-- guidedPane -->
+
+
 </div><!-- mainInnerMap -->
+
+
+<!--<li class="mainnav_map_li mainnav_main_li" data-link="/" data-index="0"><div><i><b class="sprite-home_w"></b></i></div></li>
+<li class="mainnav_text_li" data-link="/useful_info/" data-index="1"><div><i><b class="sprite-info_w"></b></i></div></li>
+<li class="mainnav_map_li" data-link="/where-to-stay/" data-index="2"><div><i><b class="sprite-hotel_w"></b></i></div></li>
+<li class="mainnav_map_li" data-link="/what-to-see/" data-index="3"><div><i><b class="sprite-attractions_w"></b></i></div></li>
+<li class="mainnav_text_li" data-link="/transportation/" data-index="4"><div><i><b class="sprite-auto_w"></b></i></div></li>
+<li class="mainnav_map_li" data-link="/where-to-eat/" data-index="5"><div><i><b class="sprite-food_w"></b></i></div></li>
+<li class="mainnav_text_li" data-link="/guided_tours/" data-index="6"><div><i><b class="sprite-excours_w"></b></i></div></li>-->
+
 
 
 </div><!-- mainInner -->
@@ -383,7 +424,7 @@
 
         <div class="mp_selCat_in">
 
-            <div class="mp_selCat_item"><h3>Text</h3><div class="mp_selCat_item_lnk" data-link="/info/"></div></div>
+            <div class="mp_selCat_item"><div class="table"><i><b class="sprite-info_b"></b></i></div><h3>Text</h3><div class="mp_selCat_item_lnk" data-link="/info/"></div></div>
             <div class="mp_selCat_item"><h3>Where to stay</h3><div class="mp_selCat_item_lnk" data-link="/wheretostay/"></div></div>
             <div class="mp_selCat_item"><h3></h3></div>
             <div class="mp_selCat_item"><h3></h3></div>

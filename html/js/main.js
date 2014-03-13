@@ -215,7 +215,7 @@ $(function(){
             }
         }
 
-        updateParamsStr();
+        updateParamsObj();
 
 
 
@@ -423,7 +423,7 @@ $(function(){
                 url = item.attr('data-link');
             }
 
-            updateParamsStr();
+            updateParamsObj();
             url = decodeURIComponent($.param.querystring( url, $paramsObj ));
 
             addHistoryItem(title, url);

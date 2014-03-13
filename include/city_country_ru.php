@@ -23,7 +23,7 @@
 		<?
 		CModule::IncludeModule("iblock");
 		$arSelect = Array("ID", "NAME", "IBLOCK_SECTION_ID", "CODE");
-		$arFilter = Array("IBLOCK_ID"=>9,"SECTION_ID"=>34, "ACTIVE_DATE"=>"Y", "ACTIVE"=>"Y");
+		$arFilter = Array("IBLOCK_ID"=>9,"SECTION_ID"=>32, "ACTIVE_DATE"=>"Y", "ACTIVE"=>"Y");
 		$res = CIBlockElement::GetList(Array("SORT"=>"ASC"),
 
 			$arFilter, false, false, $arSelect); // Lt
@@ -51,7 +51,7 @@
 		<?
 		CModule::IncludeModule("iblock");
 		$arSelect = Array("ID", "NAME", "IBLOCK_SECTION_ID", "CODE");
-		$arFilter = Array("IBLOCK_ID"=>9,"SECTION_ID"=>32, "ACTIVE_DATE"=>"Y", "ACTIVE"=>"Y");
+		$arFilter = Array("IBLOCK_ID"=>9,"SECTION_ID"=>34, "ACTIVE_DATE"=>"Y", "ACTIVE"=>"Y");
 		$res = CIBlockElement::GetList(Array("SORT"=>"ASC"),
 
 			$arFilter, false, false, $arSelect); // Ru

@@ -2,6 +2,7 @@
 <!DOCTYPE HTML>
 <html lang="ru">
 <head>
+<?$APPLICATION->ShowHead();?>
 	<?// $APPLICATION->ShowHead();?>
 	<meta charset="UTF-8">
 	<title></title>
@@ -25,7 +26,7 @@
 	<!-- JS -->
 	<script type="text/javascript" src="<?php echo SITE_TEMPLATE_PATH ?>/js/main.js"></script>
 	<script type="text/javascript" src="<?php echo SITE_TEMPLATE_PATH ?>/js/functions.js"></script>
-	<script type="text/javascript" src="<?php echo SITE_TEMPLATE_PATH ?>/js/map.js"></script>
+<!--	<script type="text/javascript" src="--><?php //echo SITE_TEMPLATE_PATH ?><!--/js/map.js"></script>-->
 
-</head>
+</head><?$APPLICATION->ShowPanel();?>
 <body><? // $APPLICATION->ShowPanel();?>
