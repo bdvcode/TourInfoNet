@@ -5,26 +5,42 @@ require($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_before.ph
 define("NO_KEEP_STATISTIC", true);
 define("NOT_CHECK_PERMISSIONS", true);?>
 
+<?
+$from = date_create($_GET['date']);
+if($from){
+$fromStart = $from->getTimestamp();
+$mathTo = $fromStart + 604800;
+
+$fromArr = strftime("%d.%m.%Y",$fromStart);
+$toArr =strftime("%d.%m.%Y",$mathTo);
+
+$arrFilterDate = Array(
+	">=DATE_ACTIVE_FROM" => $fromArr,
+	"<=DATE_ACTIVE_FROM" => $toArr);
+}
+?>
+
+<?=$fromArr;?>
+</br>
+<?=$toArr;?>
+
+
 <?$APPLICATION->IncludeComponent(
 	"bitrix:news.list",
 	"guidedpane",
 	Array(
-		"DISPLAY_DATE" => "Y",
-		"DISPLAY_NAME" => "Y",
-		"DISPLAY_PICTURE" => "Y",
-		"DISPLAY_PREVIEW_TEXT" => "Y",
-		"AJAX_MODE" => "N",
+		"AJAX_MODE" => "Y",
 		"IBLOCK_TYPE" => "text_pages",
 		"IBLOCK_ID" => "13",
-		"NEWS_COUNT" => "20",
+		"NEWS_COUNT" => "100",
 		"SORT_BY1" => "ACTIVE_FROM",
 		"SORT_ORDER1" => "DESC",
 		"SORT_BY2" => "SORT",
 		"SORT_ORDER2" => "ASC",
-		"FILTER_NAME" => "",
+		"FILTER_NAME" => "arrFilterDate",
 		"FIELD_CODE" => array("PREVIEW_TEXT", "PREVIEW_PICTURE", "DETAIL_TEXT"),
 		"PROPERTY_CODE" => array("email", "org", "tel"),
-		"CHECK_DATES" => "Y",
+		"CHECK_DATES" => "N",
 		"DETAIL_URL" => "",
 		"PREVIEW_TRUNCATE_LEN" => "",
 		"ACTIVE_DATE_FORMAT" => "d.m.Y",
@@ -36,8 +52,9 @@ define("NOT_CHECK_PERMISSIONS", true);?>
 		"PARENT_SECTION" => "",
 		"PARENT_SECTION_CODE" => "",
 		"INCLUDE_SUBSECTIONS" => "Y",
-		"CACHE_TYPE" => "A",
+		"CACHE_TYPE" => "N",
 		"CACHE_TIME" => "36000000",
+		"CACHE_NOTES" => "",
 		"CACHE_FILTER" => "N",
 		"CACHE_GROUPS" => "Y",
 		"PAGER_TEMPLATE" => ".default",
@@ -51,6 +68,5 @@ define("NOT_CHECK_PERMISSIONS", true);?>
 		"AJAX_OPTION_JUMP" => "N",
 		"AJAX_OPTION_STYLE" => "Y",
 		"AJAX_OPTION_HISTORY" => "N"
-	),
-	false
+	)
 );?>
