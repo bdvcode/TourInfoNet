@@ -3,7 +3,7 @@
 <html lang="ru">
 <head>
 <?$APPLICATION->ShowHead();?>
-	<?// $APPLICATION->ShowHead();?>
+	<?$APPLICATION->ShowHead();?>
 	<meta charset="UTF-8">
 	<title></title>
 

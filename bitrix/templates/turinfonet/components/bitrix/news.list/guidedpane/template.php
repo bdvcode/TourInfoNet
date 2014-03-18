@@ -25,32 +25,24 @@ if(($paramValueM - 1) > 0){
 			$urlM);
 		}
 		?>
-		<?if(isset($_GET['AJAX_PAGE'])) { $APPLICATION->RestartBuffer(); };?>
-
-		<?foreach($arResult["ITEMS"] as $arItem1):?>
-			<?$count++?>
-
-		<?endforeach;?>
-		<?$count=0;?>
-		<?$count1=0;?>
-				<?foreach($arResult["ITEMS"] as $arItem):?>
-
-						<?$count++?>
-
-							<div class="guided_date afterclr">
-								<div class="guided_date_inner"><?=$arItem1["DISPLAY_ACTIVE_FROM"]?> <?=$count?></div>
-							</div>
-
-
-
-
-					<div class="guided_item afterclr"><?=$counter?></br><?=$counter1?>
+		<?if(isset($_GET['AJAX_PAGE'])) { $APPLICATION->RestartBuffer(); };
+		$LastCreateDate = '';
+		?>
+		<?foreach($arResult["ITEMS"] as $arItem):?>
+					<?$date1 = ConvertDateTime($arItem["DISPLAY_ACTIVE_FROM"],"DD.MM.YYY", "ru");?>
+	<? if($LastCreateDate != $date1):?>
+				<?$LastCreateDate=$date1;?>
+						<div class="guided_date afterclr">
+						<div class="guided_date_inner"><?=$LastCreateDate?> </div>
+					</div>
+				<?endif;?>
+					<div class="guided_item afterclr">
 						<div class="guided_item_cell guided_item_place col1"><div><?$countrId =$arItem["PROPERTIES"]["country"]["VALUE"];$res = CIBlockSection::GetByID($countrId);if($ar_res = $res->GetNext())echo $ar_res['NAME'];?>,
 								<?$cityId=$arItem["PROPERTIES"]["city"]["VALUE"];$res = CIBlockElement::GetByID($cityId);if($ar_res = $res->GetNext())echo $ar_res['NAME'];?>
 							</div></div>
 						<div class="guided_item_cell col2">
 							<div>
-								<div class="guided_item_title"><?=$arItem["NAME"]?> <?=$arItem["DISPLAY_ACTIVE_FROM"]?></div>
+								<div class="guided_item_title"><?=$arItem["NAME"]?></div>
 								<div class="guided_item_preview"><?=$arItem["PREVIEW_TEXT"]?></div>
 							</div>
 						</div>

@@ -33,7 +33,7 @@ $(function(){
             timeout: 15000,
             cache: true,
             success: function(data){
-                $db = data;
+                map_db = data;
                 $dbloaded = true;
                 $(document).trigger('databaseload');
                 //addMarkers(data);
@@ -215,7 +215,7 @@ $(function(){
             }
         }
 
-        updateParamsObj();
+        updateParamsStr();
 
 
 
@@ -274,13 +274,13 @@ $(function(){
 
     function newItemsToF2(data){
 
-        $db = data;
+        map_db = data;
 
         var items = [],
             count = 0;
 
         // вносим все объекты с их координатами в массив
-        $.each($db, function(key, val){
+        $.each(map_db, function(key, val){
             var current = $('<div class="secondFltr_item">'+ val.name +'</div>');
             current.attr('data-latlng', val.LatLng);
             current.attr('markerid', count);
@@ -359,8 +359,8 @@ $(function(){
             //if(!($('.gm-style').length)){
             initMap();
             removeAllMarkers();
-            addMarkers($db);
-            newItemsToF2($db);
+            addMarkers(map_db);
+            newItemsToF2(map_db);
             // }
         }
 
@@ -423,7 +423,7 @@ $(function(){
                 url = item.attr('data-link');
             }
 
-            updateParamsObj();
+            updateParamsStr();
             url = decodeURIComponent($.param.querystring( url, $paramsObj ));
 
             addHistoryItem(title, url);

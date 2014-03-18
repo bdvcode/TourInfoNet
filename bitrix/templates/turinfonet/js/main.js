@@ -1,4 +1,4 @@
-var $db,
+var map_db, guided_db,
     $dbloaded = false,
     $infoBoxRmState = false,
     $fullInfoBoxH,
@@ -33,6 +33,43 @@ $(function(){
     window.$b = $('body');
     window.preloader = $('#preloadPage');
 
+
+    // связываем пункты основной навигации с панелями
+    var $mainnav_ul = $('.mainnav_ul');
+    //    обработка клика в главном меню
+    $mainnav_ul.children('li').on(clickEvent, function(event){
+        var clicked;
+        if(event.target.tagName.toLowerCase() == 'li'){ clicked = event.target; } else { clicked = $(this).closest('li'); }
+        if($(clicked).hasClass('active')) return;
+        mainnavLiClick(clicked, true);
+    });
+
+
+//    выбор категории на главной странице
+    $b.on(clickEvent, '.mp_selCat_item_lnk', function(e){
+        var urlToFind = $(e.target).attr('data-link');
+        var currentLiForOpen = $('#mainnavUl').find('li[data-link="'+ urlToFind +'"]');
+//        делаем клик
+        currentLiForOpen.trigger(clickEvent);
+    });
+    $b.on(clickEvent, '.js-mpSelCatClose', function(){
+        $(this).closest('.mp_selCat').fadeOut(60);
+    });
+
+    /* TEXT PAGE AJAX*/
+    $b.on(clickEvent, '.tp_ajax', function(e){
+        e.preventDefault();
+        if($(e.target).hasClass('active')){ return;}
+        ajaxLoadPage_Textpage(e);
+    });
+    // фильтры-кнопки UX
+    $b.on(clickEvent, '.ip_ff_subcat.btn', function(){
+        $(this).closest('.ip_ff_subcat_wrap').find('.ip_ff_subcat.active').removeClass('active');
+        $(this).addClass('active');
+    });
+
+
+
 //    заполняем массив типов корневыми объектами-категориями
     var mainnavItem = $('#mainnavUl').children('li');
     for(var i = 0; i <  mainnavItem.length; i++){
@@ -43,33 +80,40 @@ $(function(){
 
 
     // first load json database
-    if($dbloaded == false){
-        /*$.ajax({
-            url: 'http://tin.brandivision.ru/where-to-eat/map.php',
-            type: "GET",
-            dataType: "json",
-            timeout: 15000,
-            cache: true,
-            success: function(data){
-                $db = data;
-                $dbloaded = true;
-                $(document).trigger('databaseload');
-            },
-            error: function(req, err){
-                console.log(req);
-                console.log(err);
-            }
-        });*/
+    /*if($dbloaded == false){
+        sendMapAjaxRequest();
+    }*/
 
-        sendMapAjaxRequest(
-            /*function(data){
-                $db = data;
-                $dbloaded = true;
-                $(document).trigger('databaseload');
-            }*/
-        );
+    getParamsFromURL();
+    updateFiltersInterface();
+    activatePanesFromURL();
+
+    function activatePanesFromURL(){
+
+//        формируем атрибут с адресом для поиска пункта
+        var urlToFind = '/';
+        if($maincat && $maincat !== '') urlToFind = urlToFind + $maincat + '/';
+
+//        делаем поиск нужного пункта
+        var currentLiForOpen = $('#mainnavUl').find('li[data-link="'+ urlToFind +'"]');
+//        делаем клик
+        mainnavLiClick(currentLiForOpen, false);
+
+//        если в адресе указана страна или город, включаем их фильтры
+        updateCountryCity();
 
     }
+
+    $(document).on('databaseload', function(){
+
+        $(window).resize();
+        setTimeout(function(){
+            preloader.hide().addClass('transparent');
+        }, 600);
+
+    });
+
+
 
 
 
@@ -92,9 +136,7 @@ $(function(){
                 title: val.name
             });
 
-
             // info boxes
-
             var template = '<div class="infoWinWrap_arrow"></div><div class="infoWinWrap"><div class="infoWinWrap_head"><h3>{obj-name}</h3><img src="" class="infoWinWrap_img" /><div class="bluebtn infoWin_rm" id="infoWin_rm" onclick="infoBoxRm()"><span>{readmore}</span></div>{obj-contacts}</div><div class="infoWinWrap_text">{obj-text}</div></div><div class="infoWinWrap_botFade"></div>';
             var data = template.replace('{obj-name}', val.name)
                 .replace('{obj-contacts}', val.contacts)
@@ -167,9 +209,6 @@ $(function(){
 
         });
     }
-    //initMap();
-
-
 
 
 
@@ -195,6 +234,9 @@ $(function(){
         e.stopPropagation();
         actionsF1(e);
     });
+//    обработчики выбора страны
+
+
     $('.countrySelect').on('change', function(e){
         $('.citySelectWrap').each(function(){
             $(this).find('.active').removeClass('active');
@@ -202,16 +244,25 @@ $(function(){
         });
         getCountryCity();
         updateCountryCity();
-        actionsF1(e);
-    });
 
+        if($(this).closest('.map_pane').length){ actionsF1(e); }
+        if($(this).closest('.guided_pane').length){
+            updateParamsObj();
+            var url = window.location.href.split("?")[0];
+            url = decodeURIComponent($.param.querystring( url, $paramsObj ));
+            addHistoryItem('', url);
+
+            sendGuidedAjaxRequest();
+        }
+
+    });
+//    обработчики выбора города
 
     $('.citySelectWrap select').on('change', function(e){
         getCountryCity();
         updateCountryCity();
-        actionsF1(e);
+        if($(this).closest('.map_pane').length){ actionsF1(e); }
     });
-
 
 
 
@@ -242,63 +293,17 @@ $(function(){
             }
         }
 
-        updateParamsStr();
+        updateParamsObj();
 
 
 
         //запрос новой БД с отфильтрованными объектами
-        /*$.ajax({
-            url: 'http://tin.brandivision.ru/where-to-eat/map.php',
-            type: "GET",
-            dataType: "json",
-            timeout: 15000,
-            cache: true,
-            data: {
-                category:   $maincat,
-                country:   $country,
-                city:      $city,
-                price:  $pricecat,
-                type: $type[$maincat]
-            },
-            success: newItemsToF2,
-            error: function(req, err){
-                console.log(req);
-                console.log(err);
-            }
-        });*/
-
         sendMapAjaxRequest(true);
 
 
-        var url = window.location.href.split("?")[0],
-            val = $(e.target).val().toLowerCase();
-
-        if(e.target.tagName == 'SELECT'){
-//            var curUrl = location.pathname.split("/").filter(function(e){return e});
-
-            if($(e.target).hasClass('countrySelect')){
-//                если переключена страна
-                if(val == ''){
-                    url = '/'+ $maincat +'/';
-                } else {
-                    url = '/'+ $maincat +'/'+ $country +'/';
-                    if($city && $city != '') url += $city +'/';
-                }
-
-            } else if ($(e.target).hasClass('citySelect')){
-//                если переключен город
-                if(val == ''){
-                    url = '/'+ $maincat +'/'+ $country +'/';
-                } else {
-                    url = '/'+ $maincat +'/'+ $country +'/'+ $city +'/';
-                }
-            }
-        }
-
+        var url = window.location.href.split("?")[0];
         url = decodeURIComponent($.param.querystring( url, $paramsObj ));
-
         addHistoryItem('', url);
-
 
     }
 
@@ -311,39 +316,9 @@ $(function(){
 
 
 
-    // связываем пункты основной навигации с панелями
-    var $mainnav_ul = $('.mainnav_ul');
-    $mainnav_ul.find('li').each(function(){
-        $(this).attr('data-index', $(this).index());
-    });
-    $('.first_fltr_pane').each(function(){
-        $(this).attr('data-index', $(this).index());
-    });
 
-
-//    выбор категории на главной странице
-    $b.on(clickEvent, '.mp_selCat_item_lnk', function(e){
-        var urlToFind = $(e.target).attr('data-link');
-        var currentLiForOpen = $('#mainnavUl').find('li[data-link="'+ urlToFind +'"]');
-//        делаем клик
-        currentLiForOpen.trigger('click');
-    });
-    $b.on(clickEvent, '.js-mpSelCatClose', function(){
-        $(this).closest('.mp_selCat').fadeOut(60);
-    });
-
-//    обработка клика в главном меню
-//    $('.mainnav_ul').children('li').on('click', mainnavLiClick);
-    $mainnav_ul.children('li').on(clickEvent, function(event){
-
-        var clicked;
-        if(event.target.tagName.toLowerCase() == 'li'){ clicked = event.target; } else { clicked = $(this).closest('li'); }
-        if($(clicked).hasClass('active')) return;
-        mainnavLiClick(clicked, true);
-    });
 
     function mainnavLiClick(item, pushState){
-
 //        item = $(event.target);
         item = $(item);
         $maincat = item.attr('data-link').replace(/\//g,'');
@@ -353,47 +328,53 @@ $(function(){
 
 //        если категория уже открыта
         if(item.hasClass('active')) return;
-//        если категория с картой
-        if(item.hasClass('mainnav_map_li')) {
-            if(!($('.gm-style').length)){ initMap(); }
-            sendMapAjaxRequest(false);
-        }
 
-//        если главная страница
-        if(item.hasClass('mainnav_main_li')) {
-            $('#mainMapContainer').append( $('#mpContent').html());
-            $(window).resize();
-        } else {
-            $('.mp_selCat').remove();
-        }
-
-
+//        показать панель, назначить active
         $('.mainnav_ul').children('li.active').removeClass('active');
         $('.first_fltr_pane').filter('.active').removeClass('active');
         item.addClass('active');
 
-
-
-
-
-        //показать панель
-
-        var activeF1Pane = $('.first_fltr_pane[data-index='+item.attr('data-index')+']');
+        window.activeF1Pane = $('.first_fltr_pane[data-index='+item.attr('data-index')+']');
         activeF1Pane.addClass('active');
 
 
-//        если текстовая, открываем первый пункт
-        if(item.hasClass('mainnav_text_li')) {
+        if(item.hasClass('mainnav_map_li')) {
 
+//          если категория с картой
+            if(!($('.gm-style').length)){ initMap(); }
+            sendMapAjaxRequest(false);
+
+        } else if (item.hasClass('mainnav_text_li')){
+
+//          если текстовая
             if(activeF1Pane.find('.tp_ajax.active').length){
 //                действия, если есть включенная активная кнопка
-                activeF1Pane.find('.tp_ajax.active').trigger('click');
+                activeF1Pane.find('.tp_ajax.active').trigger(clickEvent);
             } else {
 //                если активной кнопки нет, открыть первую
-                $('.first_fltr_pane').find('.tp_ajax').first().trigger('click');
+                activeF1Pane.find('.tp_ajax').first().trigger(clickEvent);
             }
 
+        } else if(item.hasClass('mainnav_guided_li')){
+//          если guided tours-экскурсии
+
+            sendGuidedAjaxRequest();
+
         }
+
+//        если главная страница
+//        выводить после инициализации карты
+        if(item.hasClass('mainnav_main_li')) {
+            $('#mainMapContainer').append( $('#mpContent').html());
+            $(window).resize();
+        } else {
+            $('#mainMapContainer').find('.mp_selCat').remove();
+        }
+
+
+
+
+
 
 
         //если включены фильтры показать панель F2
@@ -406,39 +387,18 @@ $(function(){
         addScrolls();
 
         if(pushState){
-
-            var url = item.attr('data-link').replace(/\//g,''),
+            var url = item.attr('data-link'),
                 title = $('.first_fltr_pane').filter('active').find('h1').text();
-//            var curUrl = location.pathname.split("/").filter(function(e){return e});
-
-            if (activeF1Pane.find('.countrySelect').length) {
-                if ($country && $country != '' && $city && $city !=''){
-                    url = '/'+ url +'/'+ $country +'/'+ $city +'/';
-                } else if ($country && $country != '') {
-                    url = '/'+ url +'/'+ $country +'/';
-                } else {
-                    url = '/'+ url +'/';
-                }
-            } else {
-                url = item.attr('data-link');
-            }
-
-            updateParamsStr();
+            updateParamsObj();
             url = decodeURIComponent($.param.querystring( url, $paramsObj ));
 
             addHistoryItem(title, url);
         }
 
 
-        preloader.hide();
-
     }
 
-    // фильтры-кнопки UX
-    $('.ip_ff_subcat.btn').on(clickEvent, function(){
-        $(this).closest('.ip_ff_subcat_wrap').find('.ip_ff_subcat.active').removeClass('active');
-        $(this).addClass('active');
-    });
+
 
 
     // стилизация селектов
@@ -448,7 +408,7 @@ $(function(){
 
 
     function getParamsFromURL(){
-        var pathArray = [];
+        /*var pathArray = [];
         var array = location.pathname.split("/");
 
 //        разбиваем адрес на массив
@@ -465,57 +425,41 @@ $(function(){
 
 
         if(paramsArrFromURL.price) $pricecat = paramsArrFromURL.price;
-        if(paramsArrFromURL.type) $type[$maincat] = paramsArrFromURL.type;
+        if(paramsArrFromURL.type) $type[$maincat] = paramsArrFromURL.type;*/
 
-//        console.log($type[$maincat]);
+        var pathArray = [];
+         var array = location.pathname.split("/");
 
-    }
+         //        разбиваем адрес на массив
+         for(var i = 0; i < array.length; i++){
+             var c = array[i];
+             if(c != '') pathArray.push(c);
+         }
 
-    getParamsFromURL();
-    updateFiltersInterface();
+         if(pathArray[0]) { $maincat = pathArray[0]; $type[$maincat] = []; }
 
+         var paramsArrFromURL = $.deparam.querystring();
 
-    function activatePanesFromURL(){
-
-//        формируем атрибут с адресом для поиска пункта
-        var urlToFind = '/';
-        if($maincat && $maincat !== '') urlToFind = urlToFind + $maincat + '/';
-
-
-//        делаем поиск нужного пункта
-        var currentLiForOpen = $('#mainnavUl').find('li[data-link="'+ urlToFind +'"]');
-//        делаем клик
-//        currentLiForOpen.trigger('click');
-        mainnavLiClick(currentLiForOpen, false);
-
-//        если в адресе указана страна или город, включаем их фильтры
-        updateCountryCity();
+         if(paramsArrFromURL.country) $country = paramsArrFromURL.country;
+         if(paramsArrFromURL.city) $city = paramsArrFromURL.city;
+         if(paramsArrFromURL.price) $pricecat = paramsArrFromURL.price;
+         if(paramsArrFromURL.type) $type[$maincat] = paramsArrFromURL.type;
+         if(paramsArrFromURL.date) filter_date = paramsArrFromURL.date;
 
     }
 
-    $(document).on('databaseload', function(){
-        activatePanesFromURL();
-        $(window).resize();
-        setTimeout(function(){
-            preloader.hide().addClass('transparent');
-        }, 600);
-
-    });
 
 
-    /* TEXT PAGE AJAX*/
-    $b.on(clickEvent, '.tp_ajax', function(e){
-        event.preventDefault();
-        event.stopPropagation();
-        ajaxLoadPage_Textpage(e);
-    });
+
+
 
     var loadLink;
 
-    function ajaxLoadPage_Textpage(e) {
+    function ajaxLoadPage_Textpage(e){
 
-        loadLink =  e.target.href;
+        loadLink = e.target.href;
         if(!(loadLink)) loadLink = $(e.target).closest('a').attr('href');
+        console.log('Ajax request URL: '+loadLink);
 
         preloader.show();
 
@@ -525,13 +469,16 @@ $(function(){
             dataType: "html",
             timeout: 10000,
             cache: true,
-            success: onAjaxSuccess
+            success: onAjaxSuccess,
+            error: function(req, err){
+                console.log(req);
+                console.log(err);
+            }
         });
 
         function onAjaxSuccess(data){
-            $('#mainMapContainer').html($(data).find('#mainInnerMap').html());
-            $(window).resize();
-            preloader.hide();
+            $('#mainMapContainer').html($(data).find('#mainMapContainer').html());
+            $(document).trigger('databaseload');
         }
         //console.log(loadLink)
     }
@@ -615,20 +562,23 @@ $(function(){
     $('#js-guid_tours_datepicker').datepicker({
         firstDay: 1,
         minDate: 0,
-//        onSelect: ;
-        altField: "#js-guid_tours_datepicker_input"
+        altField: "#js-guid_tours_datepicker_input",
+        onSelect: function(dateText){
+
+            filter_date = dateText;
+            updateParamsObj();
+            var url = window.location.href.split("?")[0];
+            url = decodeURIComponent($.param.querystring( url, $paramsObj ));
+            addHistoryItem('', url);
+
+            sendGuidedAjaxRequest();
+        }
+
     });
 
+    if(filter_date && filter_date != ''){
+        $('#js-guid_tours_datepicker').datepicker('setDate', filter_date);
+    }
+
+
 });
-
-
-
-
-
-
-
-
-
-
-
-

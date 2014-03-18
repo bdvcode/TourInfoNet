@@ -95,54 +95,19 @@
 
 
 	<?$APPLICATION->IncludeComponent(
-		"bitrix:news.list",
-		"side_menu",
+		"bitrix:menu",
+		"ip_ff_subcat_wrap",
 		Array(
-			"DISPLAY_DATE" => "Y",
-			"DISPLAY_NAME" => "Y",
-			"DISPLAY_PICTURE" => "Y",
-			"DISPLAY_PREVIEW_TEXT" => "Y",
-			"AJAX_MODE" => "N",
-			"IBLOCK_TYPE" => "text_pages",
-			"IBLOCK_ID" => "14",
-			"NEWS_COUNT" => "20",
-			"SORT_BY1" => "ACTIVE_FROM",
-			"SORT_ORDER1" => "DESC",
-			"SORT_BY2" => "SORT",
-			"SORT_ORDER2" => "ASC",
-			"FILTER_NAME" => "",
-			"FIELD_CODE" => array(),
-			"PROPERTY_CODE" => array(),
-			"CHECK_DATES" => "Y",
-			"DETAIL_URL" => "",
-			"PREVIEW_TRUNCATE_LEN" => "",
-			"ACTIVE_DATE_FORMAT" => "d.m.Y",
-			"SET_TITLE" => "N",
-			"SET_STATUS_404" => "N",
-			"INCLUDE_IBLOCK_INTO_CHAIN" => "Y",
-			"ADD_SECTIONS_CHAIN" => "Y",
-			"HIDE_LINK_WHEN_NO_DETAIL" => "N",
-			"PARENT_SECTION" => "",
-			"PARENT_SECTION_CODE" => "",
-			"INCLUDE_SUBSECTIONS" => "Y",
-			"CACHE_TYPE" => "N",
-			"CACHE_TIME" => "36000000",
-			"CACHE_NOTES" => "",
-			"CACHE_FILTER" => "N",
-			"CACHE_GROUPS" => "Y",
-			"PAGER_TEMPLATE" => ".default",
-			"DISPLAY_TOP_PAGER" => "N",
-			"DISPLAY_BOTTOM_PAGER" => "Y",
-			"PAGER_TITLE" => "Новости",
-			"PAGER_SHOW_ALWAYS" => "Y",
-			"PAGER_DESC_NUMBERING" => "N",
-			"PAGER_DESC_NUMBERING_CACHE_TIME" => "36000",
-			"PAGER_SHOW_ALL" => "Y",
-			"AJAX_OPTION_JUMP" => "N",
-			"AJAX_OPTION_STYLE" => "Y",
-			"AJAX_OPTION_HISTORY" => "N"
-		),
-		false
+			"ROOT_MENU_TYPE" => "left",
+			"MAX_LEVEL" => "1",
+			"CHILD_MENU_TYPE" => "left",
+			"USE_EXT" => "Y",
+			"DELAY" => "N",
+			"ALLOW_MULTI_SELECT" => "N",
+			"MENU_CACHE_TYPE" => "N",
+			"MENU_CACHE_TIME" => "3600",
+			"MENU_CACHE_USE_GROUPS" => "Y"
+		)
 	);?>
 </div><!-- first_fltr_pane -->
 
@@ -278,57 +243,12 @@
 		<p>This is our list of premier destinations, lorem ipsum dolor sit amet, consectetuer adipiscing elit.</p>
 	</div>
 
+	<div class="ip_ff_subcat_wrap">
+		<a href="/html/textpage.html" class="ip_ff_subcat btn tp_ajax">Train</a>
+		<a href="/html/textpage.html" class="ip_ff_subcat btn tp_ajax">Car</a>
+		<a href="/html/textpage.html" class="ip_ff_subcat btn tp_ajax">Airplane</a>
+	</div>
 
-	<?$APPLICATION->IncludeComponent(
-		"bitrix:news.list",
-		"side_menu",
-		Array(
-			"DISPLAY_DATE" => "Y",
-			"DISPLAY_NAME" => "Y",
-			"DISPLAY_PICTURE" => "Y",
-			"DISPLAY_PREVIEW_TEXT" => "Y",
-			"AJAX_MODE" => "N",
-			"IBLOCK_TYPE" => "text_pages",
-			"IBLOCK_ID" => "12",
-			"NEWS_COUNT" => "20",
-			"SORT_BY1" => "ACTIVE_FROM",
-			"SORT_ORDER1" => "DESC",
-			"SORT_BY2" => "SORT",
-			"SORT_ORDER2" => "ASC",
-			"FILTER_NAME" => "",
-			"FIELD_CODE" => array(),
-			"PROPERTY_CODE" => array(),
-			"CHECK_DATES" => "Y",
-			"DETAIL_URL" => "",
-			"PREVIEW_TRUNCATE_LEN" => "",
-			"ACTIVE_DATE_FORMAT" => "d.m.Y",
-			"SET_TITLE" => "N",
-			"SET_STATUS_404" => "N",
-			"INCLUDE_IBLOCK_INTO_CHAIN" => "Y",
-			"ADD_SECTIONS_CHAIN" => "Y",
-			"HIDE_LINK_WHEN_NO_DETAIL" => "N",
-			"PARENT_SECTION" => "",
-			"PARENT_SECTION_CODE" => "",
-			"INCLUDE_SUBSECTIONS" => "Y",
-			"CACHE_TYPE" => "N",
-			"CACHE_TIME" => "36000000",
-			"CACHE_NOTES" => "",
-			"CACHE_FILTER" => "N",
-			"CACHE_GROUPS" => "Y",
-			"PAGER_TEMPLATE" => ".default",
-			"DISPLAY_TOP_PAGER" => "N",
-			"DISPLAY_BOTTOM_PAGER" => "Y",
-			"PAGER_TITLE" => "Новости",
-			"PAGER_SHOW_ALWAYS" => "Y",
-			"PAGER_DESC_NUMBERING" => "N",
-			"PAGER_DESC_NUMBERING_CACHE_TIME" => "36000",
-			"PAGER_SHOW_ALL" => "Y",
-			"AJAX_OPTION_JUMP" => "N",
-			"AJAX_OPTION_STYLE" => "Y",
-			"AJAX_OPTION_HISTORY" => "N"
-		),
-		false
-	);?>
 </div><!-- first_fltr_pane -->
 
 <div data-index="5" class="first_fltr_pane">
@@ -430,8 +350,8 @@
 
 <div class="mainInnerMap" id="mainMapContainer">
 	<div id="tpContentPane">
-		<div class="tpContent_inner_topbrdr"></div>
-		<div class="tpContent_inner_botbrdr"></div>
+        <div class="tpContent_inner_topbrdr"></div>
+        <div class="tpContent_inner_botbrdr"></div>
 		<div id="tpContent">
 
 			<div class="tpContent_inner">

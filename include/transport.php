@@ -430,8 +430,8 @@
 
 <div class="mainInnerMap" id="mainMapContainer">
 	<div id="tpContentPane">
-		<div class="tpContent_inner_topbrdr"></div>
-		<div class="tpContent_inner_botbrdr"></div>
+        <div class="tpContent_inner_topbrdr"></div>
+        <div class="tpContent_inner_botbrdr"></div>
 		<div id="tpContent">
 
 			<div class="tpContent_inner">
@@ -447,7 +447,7 @@
 						"USE_SHARE" => "N",
 						"AJAX_MODE" => "N",
 						"IBLOCK_TYPE" => "text_pages",
-						"IBLOCK_ID" => "14",
+						"IBLOCK_ID" => "12",
 						"ELEMENT_ID" => $_REQUEST["ID"],
 						"ELEMENT_CODE" => "",
 						"CHECK_DATES" => "Y",

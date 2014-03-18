@@ -22,16 +22,26 @@ function removeAllMarkers(){
     markerCluster.clearMarkers();
 }
 
-function updateParamsStr(){
+function updateParamsObj(){
 
     var activeF1Pane = $('.first_fltr_pane').filter('.active');
 
 //    $paramsObj идет в урл, если фильтр есть -- добавляем в $paramsObj, если нет -- убираем
+    if(activeF1Pane.find('.countrySelect ').length && $country != '') $paramsObj.country = $country;
+    else delete $paramsObj.country;
+
+    if(activeF1Pane.find('.citySelect').filter('.active').length && $city != '') $paramsObj.city = $city;
+    else delete $paramsObj.city;
+
     if(activeF1Pane.find('[data-price]').length) $paramsObj.price = $pricecat;
     else delete $paramsObj.price;
 
     if(activeF1Pane.find('[data-type]').length) { $paramsObj.type = $type[$maincat]; }
     else delete $paramsObj.type;
+
+    if(activeF1Pane.find('#js-guid_tours_datepicker').length) { $paramsObj.date = filter_date; }
+    else delete $paramsObj.date;
+
 }
 
 function updateFiltersInterface(){
@@ -53,11 +63,10 @@ function updateFiltersInterface(){
 
 }
 
-
 function sendMapAjaxRequest(showF2Pane){
 
     $.ajax({
-        url: 'http://tin.brandivision.ru/where-to-eat/map.php',
+        url: '/ajax/map.php',
         type: "GET",
         dataType: "json",
         timeout: 15000,
@@ -73,10 +82,47 @@ function sendMapAjaxRequest(showF2Pane){
             console.log('Ajax request URL: ' + settings.url);
         },
         success: function(data){
-            $db = data;
-            if(!$dbloaded){ $(document).trigger('databaseload'); }
-            $dbloaded = true;
+            map_db = data;
+            $(document).trigger('databaseload');
             newItemsToF2(data, showF2Pane);
+            if($.isEmptyObject(map_db)){
+                var mainMapContainer = $('#mainMapContainer');
+                mainMapContainer.find('.b_popup').remove();
+                mainMapContainer.append($('#no_found_popup_wrap').html());
+            } else {
+                $('#mainMapContainer').find('.b_popup').remove();
+            }
+        },
+        error: function(req, err){
+            console.log(req);
+            console.log(err);
+        }
+    });
+
+}
+
+function sendGuidedAjaxRequest(){
+    preloader.show();
+
+    $.ajax({
+        url: '/ajax/guidedpane.php',
+        type: "GET",
+        dataType: "html",
+        timeout: 15000,
+        cache: true,
+        data: {
+            country:   $country,
+            date:  filter_date
+        },
+        beforeSend: function(jqXHR, settings) {
+            console.log('Ajax request URL: ' + settings.url);
+        },
+        success: function(data){
+//            guided_db = data;
+            $('#mainMapContainer').html(data);
+            setTimeout(function(){
+                $(document).trigger('databaseload');
+            }, 100);
         },
         error: function(req, err){
             console.log(req);
@@ -89,23 +135,26 @@ function sendMapAjaxRequest(showF2Pane){
 
 
 
-
-
 function newItemsToF2(data, showF2Pane){
 
-//    $db = data;
+//    map_db = data;
 
-    var items = [],
-        count = 0;
+    var items = [], count = 0;
 
     // вносим все объекты с их координатами в массив
-    $.each($db, function(key, val){
+    $.each(map_db, function(key, val){
         var current = $('<div class="secondFltr_item">'+ val.name +'</div>');
         current.attr('data-latlng', val.LatLng);
         current.attr('markerid', count);
         count++;
         items.push(current);
     });
+    
+    if(items.length == 0) {
+        showF2Pane = false;
+        $('.second_fltr_pane').removeClass('active');
+        $(window).trigger('resize');
+    }
 
     // пишем массив в панель F2
     if(showF2Pane){
@@ -172,6 +221,11 @@ function addScrolls(){
             hideFocus: true
         });
     }
+    /*if($('#guidedContent').length){
+        $('#guidedContent').jScrollPane({
+            hideFocus: true
+        });
+    }*/
 }
 
 function getCountryCity(){
