@@ -2,9 +2,6 @@
 $urli = $_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
 $text = explode("/", htmlspecialchars($urli));
 $urlLang = next($text);
-if($urlLang=="ru"){
-	echo("Yarr!");
-}
 ?>
 <div id="mainInner">
 
@@ -41,7 +38,7 @@ if($urlLang=="ru"){
 
 		<?$APPLICATION->IncludeComponent(
 			"bitrix:news.detail",
-			"textelmt",
+			"textelmt_en",
 			Array(
 				"DISPLAY_DATE" => "Y",
 				"DISPLAY_NAME" => "Y",
@@ -89,7 +86,7 @@ if($urlLang=="ru"){
 		<div class="ip_ff_header_ico sprite-info_b"></div>
 		<?$APPLICATION->IncludeComponent(
 			"bitrix:news.detail",
-			"textelmt",
+			"textelmt_en",
 			Array(
 				"DISPLAY_DATE" => "Y",
 				"DISPLAY_NAME" => "Y",
@@ -132,7 +129,7 @@ if($urlLang=="ru"){
 
 	<?$APPLICATION->IncludeComponent(
 		"bitrix:news.list",
-		"side_menu",
+		"side_menu_en",
 		Array(
 			"DISPLAY_DATE" => "N",
 			"DISPLAY_NAME" => "Y",
@@ -148,7 +145,7 @@ if($urlLang=="ru"){
 			"SORT_ORDER2" => "ASC",
 			"FILTER_NAME" => "",
 			"FIELD_CODE" => array(),
-			"PROPERTY_CODE" => array(),
+			"PROPERTY_CODE" => array("name_ru","name_en","name_lt","name_pl"),
 			"CHECK_DATES" => "Y",
 			"DETAIL_URL" => "",
 			"PREVIEW_TRUNCATE_LEN" => "",
@@ -198,7 +195,7 @@ if($urlLang=="ru"){
 			"",
 			Array(
 				"AREA_FILE_SHOW" => "file",
-				"PATH" => SITE_DIR."include/city_country_ru.php",
+				"PATH" => SITE_DIR."include/city_country_en.php",
 				"EDIT_TEMPLATE" => ""
 			)
 		);?>
@@ -206,28 +203,29 @@ if($urlLang=="ru"){
 		<h3>Price</h3>
 		<?
 		CModule::IncludeModule("iblock");
-		$arSelect = Array("ID", "NAME", "IBLOCK_SECTION_ID", "CODE");
+		$arSelect = Array("ID", "NAME", "IBLOCK_SECTION_ID", "CODE", "PROPERTY_name_en");
 		$arFilter = Array("IBLOCK_ID"=>11, "ACTIVE_DATE"=>"Y", "ACTIVE"=>"Y");
 		$res = CIBlockElement::GetList(Array("SORT"=>"ASC"),
 
 			$arFilter, false, false, $arSelect); // Ru
 		while($ob = $res->GetNextElement()):?>
 			<?$arFields = $ob->GetFields();?>
-			<div class="ip_ff_subcat checkbox map_f1" data-price="<?echo($arFields['ID']);?>"><?echo($arFields['NAME']);?></div>
+			<div class="ip_ff_subcat checkbox map_f1" data-price="<?echo($arFields['ID']);?>"><?echo($arFields['PROPERTY_NAME_EN_VALUE']);?></div>
+
 		<?endwhile;?>
 
 
 		<h3>Category</h3>
 		<?
 		CModule::IncludeModule("iblock");
-		$arSelect = Array("ID", "NAME", "IBLOCK_SECTION_ID", "CODE");
+		$arSelect = Array("ID", "NAME", "IBLOCK_SECTION_ID", "CODE","PROPERTY_name_en");
 		$arFilter = Array("IBLOCK_ID"=>10,"SECTION_ID"=>31, "ACTIVE_DATE"=>"Y", "ACTIVE"=>"Y");
 		$res = CIBlockElement::GetList(Array("SORT"=>"ASC"),
 
 			$arFilter, false, false, $arSelect); // Ru
 		while($ob = $res->GetNextElement()):?>
 			<?$arFields = $ob->GetFields();?>
-			<div class="ip_ff_subcat checkbox map_f1" data-type="<?echo($arFields['ID']);?>"><?echo($arFields['NAME']);?></div>
+			<div class="ip_ff_subcat checkbox map_f1" data-type="<?echo($arFields['ID']);?>"><?echo($arFields['PROPERTY_NAME_EN_VALUE']);?></div>
 		<?endwhile;?>
 
 	</div><!-- ip_ff_subcat_wrap -->
@@ -249,7 +247,7 @@ if($urlLang=="ru"){
 			"",
 			Array(
 				"AREA_FILE_SHOW" => "file",
-				"PATH" => SITE_DIR."include/city_country_ru.php",
+				"PATH" => SITE_DIR."include/city_country_en.php",
 				"EDIT_TEMPLATE" => ""
 			)
 		);?>
@@ -258,20 +256,20 @@ if($urlLang=="ru"){
 		<h3>Category</h3>
 		<?
 		CModule::IncludeModule("iblock");
-		$arSelect = Array("ID", "NAME", "IBLOCK_SECTION_ID", "CODE");
+		$arSelect = Array("ID", "NAME", "IBLOCK_SECTION_ID", "CODE","PROPERTY_name_en");
 		$arFilter = Array("IBLOCK_ID"=>10,"SECTION_ID"=>30, "ACTIVE_DATE"=>"Y", "ACTIVE"=>"Y");
 		$res = CIBlockElement::GetList(Array("SORT"=>"ASC"),
 
 			$arFilter, false, false, $arSelect); // Ru
 		while($ob = $res->GetNextElement()):?>
 			<?$arFields = $ob->GetFields();?>
-			<div class="ip_ff_subcat checkbox map_f1" data-type="<?echo($arFields['ID']);?>"><?echo($arFields['NAME']);?></div>
+			<div class="ip_ff_subcat checkbox map_f1" data-type="<?echo($arFields['ID']);?>"><?echo($arFields['PROPERTY_NAME_EN_VALUE']);?></div>
 		<?endwhile;?>
 
 
 		<?
 		CModule::IncludeModule("iblock");
-		$arSelect = Array("ID", "NAME", "IBLOCK_SECTION_ID", "CODE");
+		$arSelect = Array("ID", "NAME", "IBLOCK_SECTION_ID", "CODE","PROPERTY_name_en");
 		$arFilter = Array("IBLOCK_ID"=>10,"SECTION_ID"=>32, "ACTIVE_DATE"=>"Y", "ACTIVE"=>"Y");
 		$res = CIBlockElement::GetList(Array("SORT"=>"ASC"),
 
@@ -297,7 +295,7 @@ if($urlLang=="ru"){
 			if($ar_res = $res->GetNext()):?>
 
 
-				<div class="ip_ff_subcat checkbox map_f1" data-type="<?echo($ar_res['ID']);?>"><?echo($ar_res['NAME']);?></div>
+				<div class="ip_ff_subcat checkbox map_f1" data-type="<?echo($ar_res['ID']);?>"><?echo($arFields['PROPERTY_NAME_EN_VALUE']);?></div>
 			<?endif;?>
 		<?endwhile;?>
 
@@ -315,10 +313,10 @@ if($urlLang=="ru"){
 		<? $ee = CIBlockElement::GetProperty(15, 408, "sort", "asc", Array("CODE"=>"desc_en"));if($ee = $ee->Fetch()):echo htmlspecialcharsBack($ee["VALUE"]["TEXT"]); endif;?>
 	</div>
 
-	/
+
 	<?$APPLICATION->IncludeComponent(
 		"bitrix:news.list",
-		"side_menu",
+		"side_menu_en",
 		Array(
 			"DISPLAY_DATE" => "Y",
 			"DISPLAY_NAME" => "Y",
@@ -334,7 +332,7 @@ if($urlLang=="ru"){
 			"SORT_ORDER2" => "ASC",
 			"FILTER_NAME" => "",
 			"FIELD_CODE" => array(),
-			"PROPERTY_CODE" => array(),
+			"PROPERTY_CODE" => array("name_ru","name_en","name_lt","name_pl"),
 			"CHECK_DATES" => "Y",
 			"DETAIL_URL" => "",
 			"PREVIEW_TRUNCATE_LEN" => "",
@@ -382,7 +380,7 @@ if($urlLang=="ru"){
 			"",
 			Array(
 				"AREA_FILE_SHOW" => "file",
-				"PATH" => SITE_DIR."include/city_country_ru.php",
+				"PATH" => SITE_DIR."include/city_country_en.php",
 				"EDIT_TEMPLATE" => ""
 			)
 		);?>
@@ -392,14 +390,14 @@ if($urlLang=="ru"){
 
 		<?
 		CModule::IncludeModule("iblock");
-		$arSelect = Array("ID", "NAME", "IBLOCK_SECTION_ID", "CODE");
+		$arSelect = Array("ID", "NAME", "IBLOCK_SECTION_ID", "CODE" ,"PROPERTY_name_en");
 		$arFilter = Array("IBLOCK_ID"=>10,"SECTION_ID"=>29, "ACTIVE_DATE"=>"Y", "ACTIVE"=>"Y");
 		$res = CIBlockElement::GetList(Array("SORT"=>"ASC"),
 
 			$arFilter, false, false, $arSelect); // Ru
 		while($ob = $res->GetNextElement()):?>
 			<?$arFields = $ob->GetFields();?>
-			<div class="ip_ff_subcat checkbox map_f1" data-type="<?echo($arFields['ID']);?>"><?echo($arFields['NAME']);?></div>
+			<div class="ip_ff_subcat checkbox map_f1" data-type="<?echo($arFields['ID']);?>"><?echo($arFields['PROPERTY_NAME_EN_VALUE']);?></div>
 		<?endwhile;?>
 
 

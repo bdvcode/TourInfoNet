@@ -1,16 +1,12 @@
 <?
-
 //Подключаем API битрикса
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_before.php");
-
 header('Cache-Control: no-cache, must-revalidate');
 header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
 header('Content-type: application/json');
-
 //Отключаем статистику Bitrix
 define("NO_KEEP_STATISTIC", true);
 define("NOT_CHECK_PERMISSIONS", true);?>
-
 <?
 $url_category = $_GET['category'];
 $url_type_get = $_GET['type'];
@@ -18,8 +14,6 @@ $url_country = $_GET['country'];
 $url_city = $_GET['city'];
 $url_price = $_GET['price'];
 ?>
-
-
 <?
 CModule::IncludeModule("iblock");
 $arSelect = Array("ID", "NAME", "IBLOCK_SECTION_ID", "CODE");
@@ -35,9 +29,6 @@ while($ob = $res->GetNextElement()):?>
 	if($url_city_get == $cityCode){
 		$url_city=	$cityId;
 	}
-
-
-
 	$res_sect = CIBlockSection::GetByID( $arFields["IBLOCK_SECTION_ID"]);
 	if($ar_res_sect = $res_sect->GetNext()){
 		$countryCode = $ar_res_sect['CODE'];
@@ -62,8 +53,6 @@ while($ob1 = $res1->GetNextElement()):?>
 	$typeCode = $arFields1['CODE'];
 	$typeIdC = $arFields1['ID'];
 	$url_type_get_url = $_GET['type'];
-
-
 	$res_sect = CIBlockSection::GetByID( $arFields1["IBLOCK_SECTION_ID"]);
 	if($ar_res_sect = $res_sect->GetNext()){
 		$catCode = $ar_res_sect['CODE'];
@@ -75,7 +64,6 @@ while($ob1 = $res1->GetNextElement()):?>
 	}
 	?>
 <?endwhile;?>
-
 <?
 CModule::IncludeModule("iblock");
 $arSelect = Array("ID", "NAME", "IBLOCK_SECTION_ID", "CODE");
@@ -100,8 +88,6 @@ while($ob = $res->GetNextElement()):?>
 	"city"=>$url_city,
 	"price"=>$url_price
 ));?>
-
-
 <?$APPLICATION->IncludeComponent(
 	"bitrix:news.list",
 	"objects",
@@ -120,7 +106,7 @@ while($ob = $res->GetNextElement()):?>
 		"SORT_ORDER2" => "ASC",
 		"FILTER_NAME" => "runningFilter",
 		"FIELD_CODE" => array("DETAIL_TEXT"),
-		"PROPERTY_CODE" => array("category","type","country","city","price"),
+		"PROPERTY_CODE" => array("category","type","country","city","price","detail_text_lt","detail_text_pl","detail_text_en","contacts_lt","contacts_pl","contacts_en","adrr","Web","tel","email","contacts"),
 		"CHECK_DATES" => "Y",
 		"DETAIL_URL" => "",
 		"PREVIEW_TRUNCATE_LEN" => "",

@@ -3,9 +3,6 @@ global  $urlLang;
 $urli = $_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
 $text = explode("/", htmlspecialchars($urli));
 $urlLang = next($text);
-if($urlLang=="ru"){
-	echo("Yarr!");
-}
 ?>
 
 <div id="preloadPage">
@@ -31,23 +28,45 @@ if($urlLang=="ru"){
 
 	<div class="header_lang_wrap">
 		<div class="header_lang">
-			<div class="header_lang_item ru">
-				<span class="label">RU</span><i></i>
+			<div class="header_lang_item <?=$urlLang?>">
+				<span class="label"><?=$urlLang?></span><i></i>
 			</div>
 		</div>
 		<div class="lang_controls_ico"></div>
 
 		<div class="header_lang_options">
 
-			<div class="header_lang_item en">
-                <i></i><span class="label">English</span>
-			</div>
-			<div class="header_lang_item lt">
-                <i></i><span class="label">Lietùvių</span>
-			</div>
-			<div class="header_lang_item pl">
-                <i></i><span class="label">Polski</span>
-			</div>
+			<?
+			$i = 1;
+			$langarr = array("ru","en","lt","pl");
+			?>
+			<?foreach($langarr as $lan):?>
+				<?if($lan==$urlLang):?>
+				<?else:?>
+					<a href="/<?=$lan?>/" class="header_lang_item <?=$lan?>">
+						<i></i><span class="label"><?switch($lan)
+		{
+						case "ru":
+							echo "Русский";
+							break;
+						case "en":
+							echo "English";
+							break;
+						case "pl":
+							echo "Polski";
+							break;
+			case "lt":
+				echo "Lietùvių";
+				break;
+					}?></span>
+					</a>
+					<?endif;?>
+
+			<?endforeach;?>
+
+
+
+
 		</div><!-- header_lang_options -->
 
 	</div><!-- header_lang_wrap -->

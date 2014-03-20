@@ -1,11 +1,7 @@
-
 <?
 $urli = $_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
 $text = explode("/", htmlspecialchars($urli));
 $urlLang = next($text);
-if($urlLang=="ru"){
-	echo("Yarr!");
-}
 ?>
 <div id="mainInner">
 
@@ -40,10 +36,47 @@ if($urlLang=="ru"){
 
 		<div class="mp_hello_logo sprite-mp_hello_logo"></div>
 
-
-		jhkhjkkl
-		jhkhjkkl
-
+		<?$APPLICATION->IncludeComponent(
+			"bitrix:news.detail",
+			"textelmt_ru",
+			Array(
+				"DISPLAY_DATE" => "Y",
+				"DISPLAY_NAME" => "Y",
+				"DISPLAY_PICTURE" => "Y",
+				"DISPLAY_PREVIEW_TEXT" => "Y",
+				"USE_SHARE" => "N",
+				"AJAX_MODE" => "N",
+				"IBLOCK_TYPE" => "text_pages",
+				"IBLOCK_ID" => "15",
+				"ELEMENT_ID" => "414",
+				"ELEMENT_CODE" => "",
+				"CHECK_DATES" => "Y",
+				"FIELD_CODE" => array(),
+				"PROPERTY_CODE" => array("desc_ru", "header_ru"),
+				"IBLOCK_URL" => "",
+				"META_KEYWORDS" => "-",
+				"META_DESCRIPTION" => "-",
+				"BROWSER_TITLE" => "-",
+				"SET_TITLE" => "N",
+				"SET_STATUS_404" => "N",
+				"INCLUDE_IBLOCK_INTO_CHAIN" => "N",
+				"ADD_SECTIONS_CHAIN" => "N",
+				"ACTIVE_DATE_FORMAT" => "d.m.Y",
+				"USE_PERMISSIONS" => "N",
+				"CACHE_TYPE" => "A",
+				"CACHE_TIME" => "36000000",
+				"CACHE_GROUPS" => "Y",
+				"PAGER_TEMPLATE" => ".default",
+				"DISPLAY_TOP_PAGER" => "N",
+				"DISPLAY_BOTTOM_PAGER" => "N",
+				"PAGER_TITLE" => "Страница",
+				"PAGER_SHOW_ALL" => "N",
+				"AJAX_OPTION_JUMP" => "N",
+				"AJAX_OPTION_STYLE" => "N",
+				"AJAX_OPTION_HISTORY" => "N"
+			),
+			false
+		);?>
 	</div>
 </div><!-- first_fltr_pane -->
 
@@ -51,13 +84,52 @@ if($urlLang=="ru"){
 
 	<div class="ip_ff_header">
 		<div class="ip_ff_header_ico sprite-info_b"></div>
-		<h1>Important Info</h1>
-		<p>This is our list of premier destinations, lorem ipsum dolor sit amet, consectetuer adipiscing elit.</p>
+		<?$APPLICATION->IncludeComponent(
+			"bitrix:news.detail",
+			"textelmt_ru",
+			Array(
+				"DISPLAY_DATE" => "Y",
+				"DISPLAY_NAME" => "Y",
+				"DISPLAY_PICTURE" => "Y",
+				"DISPLAY_PREVIEW_TEXT" => "Y",
+				"USE_SHARE" => "N",
+				"AJAX_MODE" => "N",
+				"IBLOCK_TYPE" => "text_pages",
+				"IBLOCK_ID" => "15",
+				"ELEMENT_ID" => "409",
+				"ELEMENT_CODE" => "",
+				"CHECK_DATES" => "Y",
+				"FIELD_CODE" => array(),
+				"PROPERTY_CODE" => array("desc_ru", "header_ru"),
+				"IBLOCK_URL" => "",
+				"META_KEYWORDS" => "-",
+				"META_DESCRIPTION" => "-",
+				"BROWSER_TITLE" => "-",
+				"SET_TITLE" => "N",
+				"SET_STATUS_404" => "N",
+				"INCLUDE_IBLOCK_INTO_CHAIN" => "N",
+				"ADD_SECTIONS_CHAIN" => "N",
+				"ACTIVE_DATE_FORMAT" => "d.m.Y",
+				"USE_PERMISSIONS" => "N",
+				"CACHE_TYPE" => "A",
+				"CACHE_TIME" => "36000000",
+				"CACHE_GROUPS" => "Y",
+				"PAGER_TEMPLATE" => ".default",
+				"DISPLAY_TOP_PAGER" => "N",
+				"DISPLAY_BOTTOM_PAGER" => "N",
+				"PAGER_TITLE" => "Страница",
+				"PAGER_SHOW_ALL" => "N",
+				"AJAX_OPTION_JUMP" => "N",
+				"AJAX_OPTION_STYLE" => "N",
+				"AJAX_OPTION_HISTORY" => "N"
+			),
+			false
+		);?>
 	</div>
 
 	<?$APPLICATION->IncludeComponent(
 		"bitrix:news.list",
-		"side_menu",
+		"side_menu_ru",
 		Array(
 			"DISPLAY_DATE" => "N",
 			"DISPLAY_NAME" => "Y",
@@ -73,7 +145,7 @@ if($urlLang=="ru"){
 			"SORT_ORDER2" => "ASC",
 			"FILTER_NAME" => "",
 			"FIELD_CODE" => array(),
-			"PROPERTY_CODE" => array(),
+			"PROPERTY_CODE" => array("name_ru","name_en","name_lt","name_pl"),
 			"CHECK_DATES" => "Y",
 			"DETAIL_URL" => "",
 			"PREVIEW_TRUNCATE_LEN" => "",
@@ -112,8 +184,8 @@ if($urlLang=="ru"){
 
 	<div class="ip_ff_header">
 		<div class="ip_ff_header_ico sprite-hotel_b"></div>
-		<h1>Where to stay</h1>
-		<p>This is our list of premier destinations, lorem ipsum dolor sit amet, consectetuer adipiscing elit.</p>
+		<h1><? $ee = CIBlockElement::GetProperty(15, 410, "sort", "asc", Array("CODE"=>"header_ru"));if($ee = $ee->Fetch()):echo ($ee["VALUE"]); endif;?></h1>
+		<? $ee = CIBlockElement::GetProperty(15, 410, "sort", "asc", Array("CODE"=>"desc_ru"));if($ee = $ee->Fetch()):echo htmlspecialcharsBack($ee["VALUE"]["TEXT"]); endif;?>
 	</div>
 
 	<div class="ip_ff_subcat_wrap">
@@ -128,31 +200,32 @@ if($urlLang=="ru"){
 			)
 		);?>
 
-		<h3>Price</h3>
+		<h3>Цена</h3>
 		<?
 		CModule::IncludeModule("iblock");
-		$arSelect = Array("ID", "NAME", "IBLOCK_SECTION_ID", "CODE");
+		$arSelect = Array("ID", "NAME", "IBLOCK_SECTION_ID", "CODE", "PROPERTY_name_ru");
 		$arFilter = Array("IBLOCK_ID"=>11, "ACTIVE_DATE"=>"Y", "ACTIVE"=>"Y");
 		$res = CIBlockElement::GetList(Array("SORT"=>"ASC"),
 
 			$arFilter, false, false, $arSelect); // Ru
 		while($ob = $res->GetNextElement()):?>
 			<?$arFields = $ob->GetFields();?>
-			<div class="ip_ff_subcat checkbox map_f1" data-price="<?echo($arFields['ID']);?>"><?echo($arFields['NAME']);?></div>
+			<div class="ip_ff_subcat checkbox map_f1" data-price="<?echo($arFields['ID']);?>"><?echo($arFields['PROPERTY_NAME_RU_VALUE']);?></div>
+
 		<?endwhile;?>
 
 
-		<h3>Category</h3>
+		<h3>Категория</h3>
 		<?
 		CModule::IncludeModule("iblock");
-		$arSelect = Array("ID", "NAME", "IBLOCK_SECTION_ID", "CODE");
+		$arSelect = Array("ID", "NAME", "IBLOCK_SECTION_ID", "CODE","PROPERTY_name_ru");
 		$arFilter = Array("IBLOCK_ID"=>10,"SECTION_ID"=>31, "ACTIVE_DATE"=>"Y", "ACTIVE"=>"Y");
 		$res = CIBlockElement::GetList(Array("SORT"=>"ASC"),
 
 			$arFilter, false, false, $arSelect); // Ru
 		while($ob = $res->GetNextElement()):?>
 			<?$arFields = $ob->GetFields();?>
-			<div class="ip_ff_subcat checkbox map_f1" data-type="<?echo($arFields['ID']);?>"><?echo($arFields['NAME']);?></div>
+			<div class="ip_ff_subcat checkbox map_f1" data-type="<?echo($arFields['ID']);?>"><?echo($arFields['PROPERTY_NAME_RU_VALUE']);?></div>
 		<?endwhile;?>
 
 	</div><!-- ip_ff_subcat_wrap -->
@@ -163,8 +236,8 @@ if($urlLang=="ru"){
 
 	<div class="ip_ff_header">
 		<div class="ip_ff_header_ico sprite-attractions_b"></div>
-		<h1>Attractions</h1>
-		<p>This is our list of premier destinations, lorem ipsum dolor sit amet, consectetuer adipiscing elit.</p>
+		<h1><? $ee = CIBlockElement::GetProperty(15, 411, "sort", "asc", Array("CODE"=>"header_ru"));if($ee = $ee->Fetch()):echo ($ee["VALUE"]); endif;?></h1>
+		<? $ee = CIBlockElement::GetProperty(15, 411, "sort", "asc", Array("CODE"=>"desc_ru"));if($ee = $ee->Fetch()):echo htmlspecialcharsBack($ee["VALUE"]["TEXT"]); endif;?>
 	</div>
 
 	<div class="ip_ff_subcat_wrap">
@@ -180,23 +253,23 @@ if($urlLang=="ru"){
 		);?>
 
 
-		<h3>Category</h3>
+		<h3>Категория</h3>
 		<?
 		CModule::IncludeModule("iblock");
-		$arSelect = Array("ID", "NAME", "IBLOCK_SECTION_ID", "CODE");
+		$arSelect = Array("ID", "NAME", "IBLOCK_SECTION_ID", "CODE","PROPERTY_name_ru");
 		$arFilter = Array("IBLOCK_ID"=>10,"SECTION_ID"=>30, "ACTIVE_DATE"=>"Y", "ACTIVE"=>"Y");
 		$res = CIBlockElement::GetList(Array("SORT"=>"ASC"),
 
 			$arFilter, false, false, $arSelect); // Ru
 		while($ob = $res->GetNextElement()):?>
 			<?$arFields = $ob->GetFields();?>
-			<div class="ip_ff_subcat checkbox map_f1" data-type="<?echo($arFields['ID']);?>"><?echo($arFields['NAME']);?></div>
+			<div class="ip_ff_subcat checkbox map_f1" data-type="<?echo($arFields['ID']);?>"><?echo($arFields['PROPERTY_NAME_RU_VALUE']);?></div>
 		<?endwhile;?>
 
 
 		<?
 		CModule::IncludeModule("iblock");
-		$arSelect = Array("ID", "NAME", "IBLOCK_SECTION_ID", "CODE");
+		$arSelect = Array("ID", "NAME", "IBLOCK_SECTION_ID", "CODE","PROPERTY_name_ru");
 		$arFilter = Array("IBLOCK_ID"=>10,"SECTION_ID"=>32, "ACTIVE_DATE"=>"Y", "ACTIVE"=>"Y");
 		$res = CIBlockElement::GetList(Array("SORT"=>"ASC"),
 
@@ -222,7 +295,7 @@ if($urlLang=="ru"){
 			if($ar_res = $res->GetNext()):?>
 
 
-				<div class="ip_ff_subcat checkbox map_f1" data-type="<?echo($ar_res['ID']);?>"><?echo($ar_res['NAME']);?></div>
+				<div class="ip_ff_subcat checkbox map_f1" data-type="<?echo($ar_res['ID']);?>"><?echo($arFields['PROPERTY_NAME_RU_VALUE']);?></div>
 			<?endif;?>
 		<?endwhile;?>
 
@@ -236,14 +309,14 @@ if($urlLang=="ru"){
 
 	<div class="ip_ff_header">
 		<div class="ip_ff_header_ico sprite-auto_b"></div>
-		<h1>Transport</h1>
-		<p>This is our list of premier destinations, lorem ipsum dolor sit amet, consectetuer adipiscing elit.</p>
+		<h1><? $ee = CIBlockElement::GetProperty(15, 408, "sort", "asc", Array("CODE"=>"header_ru"));if($ee = $ee->Fetch()):echo ($ee["VALUE"]); endif;?></h1>
+		<? $ee = CIBlockElement::GetProperty(15, 408, "sort", "asc", Array("CODE"=>"desc_ru"));if($ee = $ee->Fetch()):echo htmlspecialcharsBack($ee["VALUE"]["TEXT"]); endif;?>
 	</div>
 
-	/
+	
 	<?$APPLICATION->IncludeComponent(
 		"bitrix:news.list",
-		"side_menu",
+		"side_menu_ru",
 		Array(
 			"DISPLAY_DATE" => "Y",
 			"DISPLAY_NAME" => "Y",
@@ -259,7 +332,7 @@ if($urlLang=="ru"){
 			"SORT_ORDER2" => "ASC",
 			"FILTER_NAME" => "",
 			"FIELD_CODE" => array(),
-			"PROPERTY_CODE" => array(),
+			"PROPERTY_CODE" => array("name_ru","name_en","name_lt","name_pl"),
 			"CHECK_DATES" => "Y",
 			"DETAIL_URL" => "",
 			"PREVIEW_TRUNCATE_LEN" => "",
@@ -297,8 +370,8 @@ if($urlLang=="ru"){
 
 	<div class="ip_ff_header">
 		<div class="ip_ff_header_ico sprite-food_b"></div>
-		<h1>Food and drink</h1>
-		<p>This is our list of premier destinations, lorem ipsum dolor sit amet, consectetuer adipiscing elit.</p>
+		<h1><? $ee = CIBlockElement::GetProperty(15, 412, "sort", "asc", Array("CODE"=>"header_ru"));if($ee = $ee->Fetch()):echo ($ee["VALUE"]); endif;?></h1>
+		<? $ee = CIBlockElement::GetProperty(15, 412, "sort", "asc", Array("CODE"=>"desc_ru"));if($ee = $ee->Fetch()):echo htmlspecialcharsBack($ee["VALUE"]["TEXT"]); endif;?>
 	</div>
 
 	<div class="ip_ff_subcat_wrap">
@@ -313,18 +386,18 @@ if($urlLang=="ru"){
 		);?>
 
 
-		<h3>Category</h3>
+		<h3>Категория</h3>
 
 		<?
 		CModule::IncludeModule("iblock");
-		$arSelect = Array("ID", "NAME", "IBLOCK_SECTION_ID", "CODE");
+		$arSelect = Array("ID", "NAME", "IBLOCK_SECTION_ID", "CODE" ,"PROPERTY_name_ru");
 		$arFilter = Array("IBLOCK_ID"=>10,"SECTION_ID"=>29, "ACTIVE_DATE"=>"Y", "ACTIVE"=>"Y");
 		$res = CIBlockElement::GetList(Array("SORT"=>"ASC"),
 
 			$arFilter, false, false, $arSelect); // Ru
 		while($ob = $res->GetNextElement()):?>
 			<?$arFields = $ob->GetFields();?>
-			<div class="ip_ff_subcat checkbox map_f1" data-type="<?echo($arFields['ID']);?>"><?echo($arFields['NAME']);?></div>
+			<div class="ip_ff_subcat checkbox map_f1" data-type="<?echo($arFields['ID']);?>"><?echo($arFields['PROPERTY_NAME_RU_VALUE']);?></div>
 		<?endwhile;?>
 
 
@@ -339,21 +412,22 @@ if($urlLang=="ru"){
 
 	<div class="ip_ff_header">
 		<div class="ip_ff_header_ico sprite-excours_b"></div>
-		<h1>Guided tours</h1>
-		<p>This is our list of premier destinations, lorem ipsum dolor sit amet, consectetuer adipiscing elit.</p>
+		<h1><? $ee = CIBlockElement::GetProperty(15, 413, "sort", "asc", Array("CODE"=>"header_ru"));if($ee = $ee->Fetch()):echo ($ee["VALUE"]); endif;?></h1>
+		<? $ee = CIBlockElement::GetProperty(15, 413, "sort", "asc", Array("CODE"=>"desc_ru"));if($ee = $ee->Fetch()):echo htmlspecialcharsBack($ee["VALUE"]["TEXT"]); endif;?>
 	</div>
 
 	<div class="ip_ff_subcat_wrap">
-		<h3>Country</h3>
+		<h3>Страна</h3>
 		<div class="niceselect_wrap">
 			<select name="countrySelect" class="niceselect countrySelect">
-				<option value="">Chose country</option>
+				<option value="">Выберите страну</option>
 				<?if(CModule::IncludeModule("iblock")):
 					// выборка только активных разделов из инфоблока $IBLOCK_ID, $ID - раздел-родителя
+					$ufName = Array("UF_RU_NAME");
 					$arFilter = Array('IBLOCK_ID'=>9, 'GLOBAL_ACTIVE'=>'Y', 'SECTION_ID'=>$ID);
-					$db_list = CIBlockSection::GetList(Array($by=>$order), $arFilter, true);
+					$db_list = CIBlockSection::GetList(Array($by=>$order), $arFilter, true,$ufName );
 					while($ar_result = $db_list->GetNext()):?>
-						<option value="<?=$ar_result['CODE']?>"><?=$ar_result['NAME']?></option>
+						<option value="<?=$ar_result['CODE']?>"><?echo($ar_result["UF_RU_NAME"]);?></option>
 					<?endwhile;?>
 				<?endif;?>
 			</select>
@@ -387,5 +461,3 @@ if($urlLang=="ru"){
 	</div>
 
 </div><!-- second_fltr_pane -->
-
-
