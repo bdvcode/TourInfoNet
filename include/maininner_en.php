@@ -1,50 +1,11 @@
-<div id="preloadPage">
-	<div class="logo_transparent"><img src="/html/images/logo_transparent.png" alt="Loading..."/><div class="pulse"></div></div>
-</div>
-
-<div id="preloadImages"></div>
-
-
-
-<div id="mainWrapper">
-
-<div class="header">
-
-	<a href="http://tin.brandivision.ru/" class="header_logo"><img src="/html/images/logo.png" alt="TourInfoNet.eu"/></a>
-
-	<div class="header_search_wrap">
-		<div class="header_search">
-			<input type="submit" class="header_search_submit sprite-search_ico" />
-			<input type="text" placeholder="Search hotels, restaurants and destinations" class="header_search_input" id="headerSearchInput" />
-		</div><!-- header_search -->
-	</div><!-- header_search_wrap -->
-
-	<div class="header_lang_wrap">
-		<div class="header_lang">
-			<div class="header_lang_item ru">
-				<span class="label">RU</span><i></i>
-			</div>
-		</div>
-		<div class="lang_controls_ico"></div>
-
-		<div class="header_lang_options">
-			<div class="header_lang_options_arrow"></div>
-
-			<div class="header_lang_item en">
-				<span class="label">EN</span><i></i>
-			</div>
-			<div class="header_lang_item lt">
-				<span class="label">LT</span><i></i>
-			</div>
-			<div class="header_lang_item pl">
-				<span class="label">PL</span><i></i>
-			</div>
-		</div><!-- header_lang_options -->
-
-	</div><!-- header_lang_wrap -->
-
-</div><!-- header -->
-
+<?
+$urli = $_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+$text = explode("/", htmlspecialchars($urli));
+$urlLang = next($text);
+if($urlLang=="ru"){
+	echo("Yarr!");
+}
+?>
 <div id="mainInner">
 
 
@@ -53,16 +14,16 @@
 	<div class="mainnav_border"></div>
 
 	<ul class="mainnav_ul" id="mainnavUl">
-		<li class="mainnav_map_li mainnav_main_li" data-link="/" data-index="0"><div><i><b class="sprite-home_w"></b></i></div></li>
-		<li class="mainnav_text_li" data-link="/useful-info/" data-index="1"><div><i><b class="sprite-info_w"></b></i></div></li>
-		<li class="mainnav_map_li" data-link="/where-to-stay/" data-index="2"><div><i><b class="sprite-hotel_w"></b></i></div></li>
-		<li class="mainnav_map_li" data-link="/what-to-see/" data-index="3"><div><i><b class="sprite-attractions_w"></b></i></div></li>
-		<li class="mainnav_text_li" data-link="/transport/" data-index="4"><div><i><b class="sprite-auto_w"></b></i></div></li>
-		<li class="mainnav_map_li" data-link="/where-to-eat/" data-index="5"><div><i><b class="sprite-food_w"></b></i></div></li>
-		<li class="mainnav_guided_li" data-link="/guided-tours/" data-index="6"><div><i><b class="sprite-excours_w"></b></i></div></li>
+		<li class="mainnav_map_li mainnav_main_li" data-cat="" data-link="/" data-index="0"><div><i><b class="sprite-home_w"></b></i></div></li>
+		<li class="mainnav_text_li" data-cat="useful-info" data-link="/<?echo($urlLang);?>/useful-info/" data-index="1"><div><i><b class="sprite-info_w"></b></i></div></li>
+		<li class="mainnav_map_li" data-cat="where-to-stay" data-link="/<?echo($urlLang);?>/where-to-stay/" data-index="2"><div><i><b class="sprite-hotel_w"></b></i></div></li>
+		<li class="mainnav_map_li" data-cat="what-to-see" data-link="/<?echo($urlLang);?>/what-to-see/" data-index="3"><div><i><b class="sprite-attractions_w"></b></i></div></li>
+		<li class="mainnav_text_li" data-cat="transport" data-link="/<?echo($urlLang);?>/transport/" data-index="4"><div><i><b class="sprite-auto_w"></b></i></div></li>
+		<li class="mainnav_map_li" data-cat="where-to-eat" data-link="/<?echo($urlLang);?>/where-to-eat/" data-index="5"><div><i><b class="sprite-food_w"></b></i></div></li>
+		<li class="mainnav_guided_li" data-cat="guided-tours" data-link="/<?echo($urlLang);?>/guided-tours/" data-index="6"><div><i><b class="sprite-excours_w"></b></i></div></li>
 	</ul>
 
-	<a href="" class="bdv">Website by<br/>Brandivision</a>
+	<a href="http://brandivision.ru/" class="bdv">Website by<br/>Brandivision</a>
 
 </div><!-- mainnav -->
 
@@ -72,16 +33,53 @@
 
 <div class="first_fltr_pane_cont">
 
-<div data-index="0" class="first_fltr_pane">
+<div data-index="0" class="first_fltr_pane map_pane">
 
 	<div class="mp_hello">
 
 		<div class="mp_hello_logo sprite-mp_hello_logo"></div>
 
-		<h1>Welcome on<br/>TourInfoNet!</h1>
-
-		<p>Set up an online directory portal of any type – companies, shops, restaurants, real estate, websites and so on in no time with
-			TourInfoNet.</p>
+		<?$APPLICATION->IncludeComponent(
+			"bitrix:news.detail",
+			"textelmt",
+			Array(
+				"DISPLAY_DATE" => "Y",
+				"DISPLAY_NAME" => "Y",
+				"DISPLAY_PICTURE" => "Y",
+				"DISPLAY_PREVIEW_TEXT" => "Y",
+				"USE_SHARE" => "N",
+				"AJAX_MODE" => "N",
+				"IBLOCK_TYPE" => "text_pages",
+				"IBLOCK_ID" => "15",
+				"ELEMENT_ID" => "414",
+				"ELEMENT_CODE" => "",
+				"CHECK_DATES" => "Y",
+				"FIELD_CODE" => array(),
+				"PROPERTY_CODE" => array("desc_en", "header_en"),
+				"IBLOCK_URL" => "",
+				"META_KEYWORDS" => "-",
+				"META_DESCRIPTION" => "-",
+				"BROWSER_TITLE" => "-",
+				"SET_TITLE" => "N",
+				"SET_STATUS_404" => "N",
+				"INCLUDE_IBLOCK_INTO_CHAIN" => "N",
+				"ADD_SECTIONS_CHAIN" => "N",
+				"ACTIVE_DATE_FORMAT" => "d.m.Y",
+				"USE_PERMISSIONS" => "N",
+				"CACHE_TYPE" => "A",
+				"CACHE_TIME" => "36000000",
+				"CACHE_GROUPS" => "Y",
+				"PAGER_TEMPLATE" => ".default",
+				"DISPLAY_TOP_PAGER" => "N",
+				"DISPLAY_BOTTOM_PAGER" => "N",
+				"PAGER_TITLE" => "Страница",
+				"PAGER_SHOW_ALL" => "N",
+				"AJAX_OPTION_JUMP" => "N",
+				"AJAX_OPTION_STYLE" => "N",
+				"AJAX_OPTION_HISTORY" => "N"
+			),
+			false
+		);?>
 	</div>
 </div><!-- first_fltr_pane -->
 
@@ -89,16 +87,54 @@
 
 	<div class="ip_ff_header">
 		<div class="ip_ff_header_ico sprite-info_b"></div>
-		<h1>Important Info</h1>
-		<p>This is our list of premier destinations, lorem ipsum dolor sit amet, consectetuer adipiscing elit.</p>
+		<?$APPLICATION->IncludeComponent(
+			"bitrix:news.detail",
+			"textelmt",
+			Array(
+				"DISPLAY_DATE" => "Y",
+				"DISPLAY_NAME" => "Y",
+				"DISPLAY_PICTURE" => "Y",
+				"DISPLAY_PREVIEW_TEXT" => "Y",
+				"USE_SHARE" => "N",
+				"AJAX_MODE" => "N",
+				"IBLOCK_TYPE" => "text_pages",
+				"IBLOCK_ID" => "15",
+				"ELEMENT_ID" => "409",
+				"ELEMENT_CODE" => "",
+				"CHECK_DATES" => "Y",
+				"FIELD_CODE" => array(),
+				"PROPERTY_CODE" => array("desc_en", "header_en"),
+				"IBLOCK_URL" => "",
+				"META_KEYWORDS" => "-",
+				"META_DESCRIPTION" => "-",
+				"BROWSER_TITLE" => "-",
+				"SET_TITLE" => "N",
+				"SET_STATUS_404" => "N",
+				"INCLUDE_IBLOCK_INTO_CHAIN" => "N",
+				"ADD_SECTIONS_CHAIN" => "N",
+				"ACTIVE_DATE_FORMAT" => "d.m.Y",
+				"USE_PERMISSIONS" => "N",
+				"CACHE_TYPE" => "A",
+				"CACHE_TIME" => "36000000",
+				"CACHE_GROUPS" => "Y",
+				"PAGER_TEMPLATE" => ".default",
+				"DISPLAY_TOP_PAGER" => "N",
+				"DISPLAY_BOTTOM_PAGER" => "N",
+				"PAGER_TITLE" => "Страница",
+				"PAGER_SHOW_ALL" => "N",
+				"AJAX_OPTION_JUMP" => "N",
+				"AJAX_OPTION_STYLE" => "N",
+				"AJAX_OPTION_HISTORY" => "N"
+			),
+			false
+		);?>
 	</div>
-
 
 	<?$APPLICATION->IncludeComponent(
 		"bitrix:news.list",
 		"side_menu",
 		Array(
-			"DISPLAY_DATE" => "Y",
+			"DISPLAY_DATE" => "N",
 			"DISPLAY_NAME" => "Y",
 			"DISPLAY_PICTURE" => "Y",
 			"DISPLAY_PREVIEW_TEXT" => "Y",
@@ -132,26 +168,27 @@
 			"CACHE_GROUPS" => "Y",
 			"PAGER_TEMPLATE" => ".default",
 			"DISPLAY_TOP_PAGER" => "N",
-			"DISPLAY_BOTTOM_PAGER" => "Y",
+			"DISPLAY_BOTTOM_PAGER" => "N",
 			"PAGER_TITLE" => "Новости",
-			"PAGER_SHOW_ALWAYS" => "Y",
+			"PAGER_SHOW_ALWAYS" => "N",
 			"PAGER_DESC_NUMBERING" => "N",
 			"PAGER_DESC_NUMBERING_CACHE_TIME" => "36000",
-			"PAGER_SHOW_ALL" => "Y",
+			"PAGER_SHOW_ALL" => "N",
 			"AJAX_OPTION_JUMP" => "N",
-			"AJAX_OPTION_STYLE" => "Y",
+			"AJAX_OPTION_STYLE" => "N",
 			"AJAX_OPTION_HISTORY" => "N"
 		),
 		false
 	);?>
+
 </div><!-- first_fltr_pane -->
 
-<div data-index="2" class="first_fltr_pane">
+<div data-index="2" class="first_fltr_pane map_pane">
 
 	<div class="ip_ff_header">
 		<div class="ip_ff_header_ico sprite-hotel_b"></div>
-		<h1>Where to stay</h1>
-		<p>This is our list of premier destinations, lorem ipsum dolor sit amet, consectetuer adipiscing elit.</p>
+		<h1><? $ee = CIBlockElement::GetProperty(15, 410, "sort", "asc", Array("CODE"=>"header_en"));if($ee = $ee->Fetch()):echo ($ee["VALUE"]); endif;?></h1>
+		<? $ee = CIBlockElement::GetProperty(15, 410, "sort", "asc", Array("CODE"=>"desc_en"));if($ee = $ee->Fetch()):echo htmlspecialcharsBack($ee["VALUE"]["TEXT"]); endif;?>
 	</div>
 
 	<div class="ip_ff_subcat_wrap">
@@ -197,12 +234,12 @@
 
 </div><!-- first_fltr_pane -->
 
-<div data-index="3" class="first_fltr_pane"> <!-- what-to-see -->
+<div data-index="3" class="first_fltr_pane map_pane"> <!-- what-to-see -->
 
 	<div class="ip_ff_header">
 		<div class="ip_ff_header_ico sprite-attractions_b"></div>
-		<h1>Attractions</h1>
-		<p>This is our list of premier destinations, lorem ipsum dolor sit amet, consectetuer adipiscing elit.</p>
+		<h1><? $ee = CIBlockElement::GetProperty(15, 411, "sort", "asc", Array("CODE"=>"header_en"));if($ee = $ee->Fetch()):echo ($ee["VALUE"]); endif;?></h1>
+		<? $ee = CIBlockElement::GetProperty(15, 411, "sort", "asc", Array("CODE"=>"desc_en"));if($ee = $ee->Fetch()):echo htmlspecialcharsBack($ee["VALUE"]["TEXT"]); endif;?>
 	</div>
 
 	<div class="ip_ff_subcat_wrap">
@@ -274,11 +311,11 @@
 
 	<div class="ip_ff_header">
 		<div class="ip_ff_header_ico sprite-auto_b"></div>
-		<h1>Transport</h1>
-		<p>This is our list of premier destinations, lorem ipsum dolor sit amet, consectetuer adipiscing elit.</p>
+		<h1><? $ee = CIBlockElement::GetProperty(15, 408, "sort", "asc", Array("CODE"=>"header_en"));if($ee = $ee->Fetch()):echo ($ee["VALUE"]); endif;?></h1>
+		<? $ee = CIBlockElement::GetProperty(15, 408, "sort", "asc", Array("CODE"=>"desc_en"));if($ee = $ee->Fetch()):echo htmlspecialcharsBack($ee["VALUE"]["TEXT"]); endif;?>
 	</div>
 
-
+	/
 	<?$APPLICATION->IncludeComponent(
 		"bitrix:news.list",
 		"side_menu",
@@ -331,12 +368,12 @@
 	);?>
 </div><!-- first_fltr_pane -->
 
-<div data-index="5" class="first_fltr_pane">
+<div data-index="5" class="first_fltr_pane map_pane">
 
 	<div class="ip_ff_header">
 		<div class="ip_ff_header_ico sprite-food_b"></div>
-		<h1>Food and drink</h1>
-		<p>This is our list of premier destinations, lorem ipsum dolor sit amet, consectetuer adipiscing elit.</p>
+		<h1><? $ee = CIBlockElement::GetProperty(15, 412, "sort", "asc", Array("CODE"=>"header_en"));if($ee = $ee->Fetch()):echo ($ee["VALUE"]); endif;?></h1>
+		<? $ee = CIBlockElement::GetProperty(15, 412, "sort", "asc", Array("CODE"=>"desc_en"));if($ee = $ee->Fetch()):echo htmlspecialcharsBack($ee["VALUE"]["TEXT"]); endif;?>
 	</div>
 
 	<div class="ip_ff_subcat_wrap">
@@ -373,12 +410,12 @@
 
 </div><!-- first_fltr_pane -->
 
-<div data-index="6" class="first_fltr_pane">
+<div data-index="6" class="first_fltr_pane guided_pane">
 
 	<div class="ip_ff_header">
 		<div class="ip_ff_header_ico sprite-excours_b"></div>
-		<h1>Guided tours</h1>
-		<p>This is our list of premier destinations, lorem ipsum dolor sit amet, consectetuer adipiscing elit.</p>
+		<h1><? $ee = CIBlockElement::GetProperty(15, 413, "sort", "asc", Array("CODE"=>"header_en"));if($ee = $ee->Fetch()):echo ($ee["VALUE"]); endif;?></h1>
+		<? $ee = CIBlockElement::GetProperty(15, 413, "sort", "asc", Array("CODE"=>"desc_en"));if($ee = $ee->Fetch()):echo htmlspecialcharsBack($ee["VALUE"]["TEXT"]); endif;?>
 	</div>
 
 	<div class="ip_ff_subcat_wrap">
@@ -425,96 +462,3 @@
 	</div>
 
 </div><!-- second_fltr_pane -->
-
-
-
-<div class="mainInnerMap" id="mainMapContainer">
-	<div id="tpContentPane">
-        <div class="tpContent_inner_topbrdr"></div>
-        <div class="tpContent_inner_botbrdr"></div>
-		<div id="tpContent">
-
-			<div class="tpContent_inner">
-
-				<?$APPLICATION->IncludeComponent(
-					"bitrix:news.detail",
-					"textpage",
-					Array(
-						"DISPLAY_DATE" => "Y",
-						"DISPLAY_NAME" => "Y",
-						"DISPLAY_PICTURE" => "Y",
-						"DISPLAY_PREVIEW_TEXT" => "Y",
-						"USE_SHARE" => "N",
-						"AJAX_MODE" => "N",
-						"IBLOCK_TYPE" => "text_pages",
-						"IBLOCK_ID" => "12",
-						"ELEMENT_ID" => $_REQUEST["ID"],
-						"ELEMENT_CODE" => "",
-						"CHECK_DATES" => "Y",
-						"FIELD_CODE" => array(),
-						"PROPERTY_CODE" => array("name_pl","name_lt","text_pl","text_lt","name_en","text_en","name_ru","text_ru"),
-						"IBLOCK_URL" => "",
-						"META_KEYWORDS" => "-",
-						"META_DESCRIPTION" => "-",
-						"BROWSER_TITLE" => "-",
-						"SET_TITLE" => "Y",
-						"SET_STATUS_404" => "N",
-						"INCLUDE_IBLOCK_INTO_CHAIN" => "Y",
-						"ADD_SECTIONS_CHAIN" => "Y",
-						"ACTIVE_DATE_FORMAT" => "d.m.Y",
-						"USE_PERMISSIONS" => "N",
-						"CACHE_TYPE" => "A",
-						"CACHE_TIME" => "36000000",
-						"CACHE_NOTES" => "",
-						"CACHE_GROUPS" => "Y",
-						"PAGER_TEMPLATE" => ".default",
-						"DISPLAY_TOP_PAGER" => "N",
-						"DISPLAY_BOTTOM_PAGER" => "Y",
-						"PAGER_TITLE" => "Страница",
-						"PAGER_SHOW_ALL" => "Y",
-						"AJAX_OPTION_JUMP" => "N",
-						"AJAX_OPTION_STYLE" => "Y",
-						"AJAX_OPTION_HISTORY" => "N"
-					),
-					false
-				);?>
-
-			</div>
-		</div><!-- tpContent -->
-
-	</div><!-- tpContentPane -->
-
-</div><!-- mainInnerMap -->
-
-
-</div><!-- mainInner -->
-
-<div class="update"></div>
-
-
-</div><!-- mainwrapper -->
-
-<div id="mpContent">
-	<div class="mp_selCat">
-
-		<div class="close_btn js-mpSelCatClose"></div>
-
-		<h2>Please, choose your category</h2>
-
-		<div class="mp_selCat_in">
-
-			<div class="mp_selCat_item"><div class="table"><i><b class="sprite-info_g"></b></i></div><h3>Useful<br/>info</h3><div class="mp_selCat_item_lnk" data-link="/useful-info/"></div></div>
-			<div class="mp_selCat_item"><div class="table"><i><b class="sprite-hotel_g"></b></i></div><h3>Where to stay</h3><div class="mp_selCat_item_lnk" data-link="/where-to-stay/"></div></div>
-			<div class="mp_selCat_item"><div class="table"><i><b class="sprite-attractions_g"></b></i></div><h3>Attractions</h3><div class="mp_selCat_item_lnk" data-link="/what-to-see/"></div></div>
-			<div class="mp_selCat_item"><div class="table"><i><b class="sprite-auto_g"></b></i></div><h3>Transport</h3><div class="mp_selCat_item_lnk" data-link="/transport/"></div></div>
-			<div class="mp_selCat_item"><div class="table"><i><b class="sprite-food_g"></b></i></div><h3>Food and drink</h3><div class="mp_selCat_item_lnk" data-link="/where-to-eat/"></div></div>
-			<div class="mp_selCat_item"><div class="table"><i><b class="sprite-excours_g"></b></i></div><h3>Guided tours</h3><div class="mp_selCat_item_lnk" data-link="/guided-tours/"></div></div>
-
-			<div class="clr"></div>
-		</div><!-- mp_selCat_in -->
-
-		<div class="bluebtn mp_big_close js-mpSelCatClose"><span>Close</span></div>
-
-
-	</div><!-- mp_selCat -->
-</div>

@@ -65,7 +65,7 @@ $toArr =strftime("%d.%m.%Y",$mathTo);
 	"bitrix:news.list",
 	"guidedpane",
 	Array(
-		"AJAX_MODE" => "Y",
+		"AJAX_MODE" => "N",
 		"IBLOCK_TYPE" => "text_pages",
 		"IBLOCK_ID" => "13",
 		"NEWS_COUNT" => "100",

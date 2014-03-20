@@ -1,50 +1,3 @@
-<div id="preloadPage">
-	<div class="logo_transparent"><img src="/html/images/logo_transparent.png" alt="Loading..."/><div class="pulse"></div></div>
-</div>
-
-<div id="preloadImages"></div>
-
-
-
-<div id="mainWrapper">
-
-<div class="header">
-
-	<a href="http://tin.brandivision.ru/" class="header_logo"><img src="/html/images/logo.png" alt="TourInfoNet.eu"/></a>
-
-	<div class="header_search_wrap">
-		<div class="header_search">
-			<input type="submit" class="header_search_submit sprite-search_ico" />
-			<input type="text" placeholder="Search hotels, restaurants and destinations" class="header_search_input" id="headerSearchInput" />
-		</div><!-- header_search -->
-	</div><!-- header_search_wrap -->
-
-	<div class="header_lang_wrap">
-		<div class="header_lang">
-			<div class="header_lang_item ru">
-				<span class="label">RU</span><i></i>
-			</div>
-		</div>
-		<div class="lang_controls_ico"></div>
-
-		<div class="header_lang_options">
-			<div class="header_lang_options_arrow"></div>
-
-			<div class="header_lang_item en">
-				<span class="label">EN</span><i></i>
-			</div>
-			<div class="header_lang_item lt">
-				<span class="label">LT</span><i></i>
-			</div>
-			<div class="header_lang_item pl">
-				<span class="label">PL</span><i></i>
-			</div>
-		</div><!-- header_lang_options -->
-
-	</div><!-- header_lang_wrap -->
-
-</div><!-- header -->
-
 <div id="mainInner">
 
 
@@ -72,7 +25,7 @@
 
 <div class="first_fltr_pane_cont">
 
-<div data-index="0" class="first_fltr_pane">
+<div data-index="0" class="first_fltr_pane map_pane">
 
 	<div class="mp_hello">
 
@@ -92,7 +45,6 @@
 		<h1>Important Info</h1>
 		<p>This is our list of premier destinations, lorem ipsum dolor sit amet, consectetuer adipiscing elit.</p>
 	</div>
-
 
 	<?$APPLICATION->IncludeComponent(
 		"bitrix:news.list",
@@ -144,9 +96,10 @@
 		),
 		false
 	);?>
+
 </div><!-- first_fltr_pane -->
 
-<div data-index="2" class="first_fltr_pane">
+<div data-index="2" class="first_fltr_pane map_pane">
 
 	<div class="ip_ff_header">
 		<div class="ip_ff_header_ico sprite-hotel_b"></div>
@@ -197,7 +150,7 @@
 
 </div><!-- first_fltr_pane -->
 
-<div data-index="3" class="first_fltr_pane"> <!-- what-to-see -->
+<div data-index="3" class="first_fltr_pane map_pane"> <!-- what-to-see -->
 
 	<div class="ip_ff_header">
 		<div class="ip_ff_header_ico sprite-attractions_b"></div>
@@ -278,7 +231,7 @@
 		<p>This is our list of premier destinations, lorem ipsum dolor sit amet, consectetuer adipiscing elit.</p>
 	</div>
 
-
+	/
 	<?$APPLICATION->IncludeComponent(
 		"bitrix:news.list",
 		"side_menu",
@@ -331,7 +284,7 @@
 	);?>
 </div><!-- first_fltr_pane -->
 
-<div data-index="5" class="first_fltr_pane">
+<div data-index="5" class="first_fltr_pane map_pane">
 
 	<div class="ip_ff_header">
 		<div class="ip_ff_header_ico sprite-food_b"></div>
@@ -373,7 +326,7 @@
 
 </div><!-- first_fltr_pane -->
 
-<div data-index="6" class="first_fltr_pane">
+<div data-index="6" class="first_fltr_pane guided_pane">
 
 	<div class="ip_ff_header">
 		<div class="ip_ff_header_ico sprite-excours_b"></div>
@@ -427,94 +380,3 @@
 </div><!-- second_fltr_pane -->
 
 
-
-<div class="mainInnerMap" id="mainMapContainer">
-	<div id="tpContentPane">
-        <div class="tpContent_inner_topbrdr"></div>
-        <div class="tpContent_inner_botbrdr"></div>
-		<div id="tpContent">
-
-			<div class="tpContent_inner">
-
-				<?$APPLICATION->IncludeComponent(
-					"bitrix:news.detail",
-					"textpage",
-					Array(
-						"DISPLAY_DATE" => "Y",
-						"DISPLAY_NAME" => "Y",
-						"DISPLAY_PICTURE" => "Y",
-						"DISPLAY_PREVIEW_TEXT" => "Y",
-						"USE_SHARE" => "N",
-						"AJAX_MODE" => "N",
-						"IBLOCK_TYPE" => "text_pages",
-						"IBLOCK_ID" => "12",
-						"ELEMENT_ID" => $_REQUEST["ID"],
-						"ELEMENT_CODE" => "",
-						"CHECK_DATES" => "Y",
-						"FIELD_CODE" => array(),
-						"PROPERTY_CODE" => array("name_pl","name_lt","text_pl","text_lt","name_en","text_en","name_ru","text_ru"),
-						"IBLOCK_URL" => "",
-						"META_KEYWORDS" => "-",
-						"META_DESCRIPTION" => "-",
-						"BROWSER_TITLE" => "-",
-						"SET_TITLE" => "Y",
-						"SET_STATUS_404" => "N",
-						"INCLUDE_IBLOCK_INTO_CHAIN" => "Y",
-						"ADD_SECTIONS_CHAIN" => "Y",
-						"ACTIVE_DATE_FORMAT" => "d.m.Y",
-						"USE_PERMISSIONS" => "N",
-						"CACHE_TYPE" => "A",
-						"CACHE_TIME" => "36000000",
-						"CACHE_NOTES" => "",
-						"CACHE_GROUPS" => "Y",
-						"PAGER_TEMPLATE" => ".default",
-						"DISPLAY_TOP_PAGER" => "N",
-						"DISPLAY_BOTTOM_PAGER" => "Y",
-						"PAGER_TITLE" => "Страница",
-						"PAGER_SHOW_ALL" => "Y",
-						"AJAX_OPTION_JUMP" => "N",
-						"AJAX_OPTION_STYLE" => "Y",
-						"AJAX_OPTION_HISTORY" => "N"
-					),
-					false
-				);?>
-
-			</div>
-		</div><!-- tpContent -->
-
-	</div><!-- tpContentPane -->
-
-</div><!-- mainInnerMap -->
-
-
-</div><!-- mainInner -->
-
-<div class="update"></div>
-
-
-</div><!-- mainwrapper -->
-
-<div id="mpContent">
-	<div class="mp_selCat">
-
-		<div class="close_btn js-mpSelCatClose"></div>
-
-		<h2>Please, choose your category</h2>
-
-		<div class="mp_selCat_in">
-
-			<div class="mp_selCat_item"><div class="table"><i><b class="sprite-info_g"></b></i></div><h3>Useful<br/>info</h3><div class="mp_selCat_item_lnk" data-link="/useful-info/"></div></div>
-			<div class="mp_selCat_item"><div class="table"><i><b class="sprite-hotel_g"></b></i></div><h3>Where to stay</h3><div class="mp_selCat_item_lnk" data-link="/where-to-stay/"></div></div>
-			<div class="mp_selCat_item"><div class="table"><i><b class="sprite-attractions_g"></b></i></div><h3>Attractions</h3><div class="mp_selCat_item_lnk" data-link="/what-to-see/"></div></div>
-			<div class="mp_selCat_item"><div class="table"><i><b class="sprite-auto_g"></b></i></div><h3>Transport</h3><div class="mp_selCat_item_lnk" data-link="/transport/"></div></div>
-			<div class="mp_selCat_item"><div class="table"><i><b class="sprite-food_g"></b></i></div><h3>Food and drink</h3><div class="mp_selCat_item_lnk" data-link="/where-to-eat/"></div></div>
-			<div class="mp_selCat_item"><div class="table"><i><b class="sprite-excours_g"></b></i></div><h3>Guided tours</h3><div class="mp_selCat_item_lnk" data-link="/guided-tours/"></div></div>
-
-			<div class="clr"></div>
-		</div><!-- mp_selCat_in -->
-
-		<div class="bluebtn mp_big_close js-mpSelCatClose"><span>Close</span></div>
-
-
-	</div><!-- mp_selCat -->
-</div>
