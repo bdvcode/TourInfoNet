@@ -21,7 +21,7 @@ $urlLang = next($text);
 
 	<script type="text/javascript">
 		var trnsl = {
-			langCode : '<?if($urlLang == "en"):?><?else:?><?=$urlLang?><?endif;?>',
+			langCode : '<?=$urlLang?>',
 			readmore : 'Подробнее',
 			hide : 'Скрыть'
 		};

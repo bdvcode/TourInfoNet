@@ -88,9 +88,10 @@ while($ob = $res->GetNextElement()):?>
 	"city"=>$url_city,
 	"price"=>$url_price
 ));?>
+
 <?$APPLICATION->IncludeComponent(
 	"bitrix:news.list",
-	"objects",
+	"objects_lt",
 	Array(
 		"DISPLAY_DATE" => "Y",
 		"DISPLAY_NAME" => "Y",

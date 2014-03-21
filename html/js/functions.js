@@ -61,7 +61,7 @@ function updateFiltersInterface(){
 function sendMapAjaxRequest(showF2Pane){
 
     $.ajax({
-        url: 'http://tin.brandivision.ru/where-to-eat/map.php',
+        url: 'http://tin.brandivision.ru/where-to-eat/map_en.php',
         type: "GET",
         dataType: "json",
         timeout: 15000,

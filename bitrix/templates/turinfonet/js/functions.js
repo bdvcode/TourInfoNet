@@ -66,7 +66,7 @@ function updateFiltersInterface(){
 function sendMapAjaxRequest(showF2Pane){
 
     $.ajax({
-        url: '/ajax/map.php',
+        url: '/ajax/map_en.php',
         type: "GET",
         dataType: "json",
         timeout: 15000,
@@ -105,7 +105,7 @@ function sendGuidedAjaxRequest(){
     preloader.show();
 
     $.ajax({
-        url: '/ajax/guidedpane.php',
+        url: '/ajax/guidedpane_en.php',
         type: "GET",
         dataType: "html",
         timeout: 15000,
