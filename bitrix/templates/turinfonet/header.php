@@ -10,7 +10,10 @@ $urlLang = next($text);
 <?$APPLICATION->ShowHead();?>
 	<?$APPLICATION->ShowHead();?>
 	<meta charset="UTF-8">
-	<title></title>
+
+    <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0;">
+
+	<title>TourInfoNet.net</title>
 
 	<!-- CSS -->
 	<link rel="stylesheet" href="<?php echo SITE_TEMPLATE_PATH ?>/css/normalize.css"/>
@@ -18,15 +21,27 @@ $urlLang = next($text);
 	<link rel="stylesheet" href="<?php echo SITE_TEMPLATE_PATH ?>/css/scroll.css"/>
 
 	<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
-
+<?switch($urlLang):
+	case "ru":?>
 	<script type="text/javascript">
-		var trnsl = {
-			langCode : '<?=$urlLang?>',
-			readmore : 'Подробнее',
-			hide : 'Скрыть'
-		};
+			var trnsl = {
+				langCode : 'ru',
+				readmore : 'Подробнее',
+				hide : 'Скрыть'
+			};
+		</script>
+	<?break;?>
+		<?case "en":?>
+		<script type="text/javascript">
+			var trnsl = {
+				langCode : 'en',
+				readmore : 'Read more',
+				hide : 'Hide'
+			};
+		</script>
+	<?break;?>
+<?endswitch;?>
 
-	</script>
 
 	<!-- JQuery -->
 	<script src="<?php echo SITE_TEMPLATE_PATH ?>/js/jquery.min.js"></script>
