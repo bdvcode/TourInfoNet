@@ -17,7 +17,7 @@ $urlLang = next($text);
 
 <div class="header">
 
-	<a href="http://tin.brandivision.ru/" class="header_logo"><img src="/html/images/logo.png" alt="TourInfoNet.eu"/></a>
+	<a href="http://tin.brandivision.ru/" class="header_logo"></a>
 
 	<div class="header_search_wrap">
 		<div class="header_search">

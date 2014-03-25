@@ -63,7 +63,7 @@ $toArr =strftime("%d.%m.%Y",$mathTo);
 
 <?$APPLICATION->IncludeComponent(
 	"bitrix:news.list",
-	"guidedpane",
+	"guidedpane_pl",
 	Array(
 		"AJAX_MODE" => "N",
 		"IBLOCK_TYPE" => "text_pages",
